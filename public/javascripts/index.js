@@ -5,11 +5,12 @@ tuiters.fight = (function() {
 	var total = 0
 
 	return {
-		getFightPercentage: function () {
+		getFightPercentage: function (keyword) { 
 			total++;
-			$.each(counters, function(e){
-				fightResult[e] = this*100/total;
-			});
+
+			console.log(keyword);
+			fightResult[keyword.keyword] = keyword.counter*100/total;
+		
 			return fightResult;
 		},
 		reset: function () {
@@ -21,8 +22,8 @@ tuiters.fight = (function() {
 
 tuiters.render = (function () {
 	return {
-		horizontalBars: function() {
-			$.each(tuiters.fight.getFightPercentage(), function(e){
+		horizontalBars: function(keyword) {
+			$.each(tuiters.fight.getFightPercentage(keyword), function(e){
 			var div = $('#' + e);
 
 				if (!div.length) {
@@ -36,8 +37,8 @@ tuiters.render = (function () {
 				div.css('width', this + '%');
 			})
 		},
-		verticalBars: function() {
-			$.each(tuiters.fight.getFightPercentage(), function(e){
+		verticalBars: function(keyword) {
+			$.each(tuiters.fight.getFightPercentage(keyword), function(e){
 
 				var div = $('#' + e);
 
@@ -61,8 +62,7 @@ tuiters.render = (function () {
 	};
 }) ();
 
-var socket = io.connect('http://localhost'),
-	counters = {};
+var socket = io.connect('http://localhost')
 
 socket.on('tweet', function (q) {
 	if(!window.keywords[q.keyword]) {
@@ -82,6 +82,8 @@ socket.on('tweet', function (q) {
 		}
 	});
 
+	//tuiters.render.horizontalBars(window.keywords[q.keyword]);
+	tuiters.render.verticalBars(window.keywords[q.keyword]);
 	rebind();
 });
 
@@ -97,8 +99,6 @@ $(document).on('ready', function(){
 		$('#tweets').empty();
 		$('#bars').empty();
 		tuiters.fight.reset();
-		window.counters = {};
-		$('section', '#results').remove();
 		window.keywords = {};
 		socket.emit('newSearch', $('#keywords').val().split(','));
 	});
@@ -118,8 +118,6 @@ function rebind(){
 		keyLen++;
 	});
 
-	//tuiters.render.horizontalBars();
-	tuiters.render.verticalBars();
 	var size = Math.floor(16 / keyLen);
 
 	switch(size){
