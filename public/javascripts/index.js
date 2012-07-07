@@ -19,10 +19,14 @@ $(document).on('ready', function(){
 		window.counters = {};
 		socket.emit('newSearch', $('#keywords').val().split(','));
 	});
+
+	$(window).resize(function(){
+		$('.select2-container').css('width', '80%');
+	});
 });
 
 function rebind(){
-	$('#tweets').empty();
+	$('*', '#tweets').remove();
 	$.each(counters, function(e){
 		$('<p>').text(e + ' : ' + this).appendTo('#tweets');
 	});
