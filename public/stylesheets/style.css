@@ -77,7 +77,39 @@ a {
 }
 
 #results {
-	width: 200px;
-	margin: 0 auto;
 	color: #FFF;
+}
+
+.tuitKey {
+
+}
+
+ul.tweets {
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 300px;
+	list-style: none;
+	padding: 0;
+}
+
+ul.tweets li{
+	border: solid 1px silver;
+	background: #1D1D1D;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+ul.tweets li img {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+	margin: 5px;
+	box-shadow: 3px 3px 3px #0C0C0C;
+	float: left;
+}
+
+ul.tweets li span {
+	height: 50px;
+	display: inline-block;
+	line-height: 3;
 }

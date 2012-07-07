@@ -1,0 +1,14 @@
+<script id="tuitKey-tmpl" type="text/template">
+	<section class="tuitKey">
+		<h2 class="key">{{keyword}} ({{counter}})</h2>
+		<ul class="tweets">	
+			{{#tweets}}
+				<li>
+					<img src="{{user.image}}">
+					<span>@{{user.name}}</span>
+					<p>{{text}}</p>
+				</li>	
+			{{/tweets}}	
+		</ul>
+	</section>
+</script>
