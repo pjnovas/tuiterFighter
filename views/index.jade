@@ -1,6 +1,13 @@
-h1= title
-p Welcome to #{title}
+header
+	h1= title
+	p.slogan Which words are gonna being fighting on Twitter?
+	
+div#main	
+	div#search
+		input#keywords(type="text")
+		button#go GO!
+		
+	div#results
+		div#tweets
 
-input#keywords(type="text")
-button#go go
-div#tweets
+footer

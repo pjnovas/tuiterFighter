@@ -31,17 +31,13 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/:userId', routes.index);
+app.get('/', routes.index);
 
 var io = socketIO.listen(app);
 io.sockets.on('connection', function (socket) {
   socket.on('newSearch', function (data) {
   	console.log(data);
-    /*
-    for(var i = 0; i < data.length; i++){
-    	god.goAhead(data[i], emitIt);
-    }
-    */
+    
    god.goAhead(data, emitIt);
   });
 });
@@ -49,11 +45,6 @@ io.sockets.on('connection', function (socket) {
 function emitIt(keyword, data){
 	io.sockets.emit("tweet", { keyword: keyword, data: data});
 }
-/*
-require('./godfile.js').init('', function(data){
-	io.sockets.emit("tweet", data);
-});
-*/
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

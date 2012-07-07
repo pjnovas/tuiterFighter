@@ -1,3 +1,4 @@
+
 var socket = io.connect('http://localhost'),
 	counters = {};
 	
@@ -10,6 +11,9 @@ socket.on('tweet', function (q) {
 });
 
 $(document).on('ready', function(){
+
+	$('#keywords').select2({tags:[]});
+
 	$('#go').on('click', function(){
 		$('#tweets').empty();
 		window.counters = {};

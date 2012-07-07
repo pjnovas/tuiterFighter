@@ -1,8 +1,87 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0;
+  font-size: 14px;
+  background: url('/images/low_contrast_linen.png');
+  font-family: 'Averia Gruesa Libre', cursive;
+
+}
+
+h1 {
+	color: #FF5200;
+	text-shadow: 1px 1px 1px white;
+	text-align: center;
+}
+
+h2 {
+
 }
 
 a {
   color: #00B7FF;
+}
+
+.slogan {
+	text-align: center;
+	color: #FFF;
+}
+
+#search {
+	max-width: 460px;
+	margin: 0 auto;
+}
+
+#keywords {
+	width: 400px;
+}
+
+.select2-container {
+	float:left;
+}
+
+.select2-container-multi .select2-choices {
+	font-size:16px;
+  color: #999;
+  padding: 6px;
+  -moz-box-shadow:inset 2px 2px 5px #ccc;
+  -webkit-box-shadow:inset 2px 2px 5px #ccc;
+  box-shadow:inset 2px 2px 5px #ccc;
+  border: 1px solid #b8b8b8;	
+
+  border-radius: 5px;
+	padding-top: 5px;
+}
+
+.select2-drop {
+	opacity: 0;
+}
+
+#go {
+	width: 50px;
+	height: 38px;
+	border-radius: 5px;
+	border: solid 2px #EB6903;
+	background-color: #FFB46F;
+	margin-left: 5px;
+	box-shadow: 1px 1px 1px #C98342 inset;
+	line-height: 1.5;
+	font-family: 'Averia Gruesa Libre', cursive;
+	font-size: 20px;
+	color: #923500;
+
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease; 
+	-webkit-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease; 
+}
+
+#go:hover{
+	box-shadow: 0;
+	background-color: #FFD3AB;
+	cursor: pointer;
+}
+
+#results {
+	width: 200px;
+	margin: 0 auto;
+	color: #FFF;
 }
