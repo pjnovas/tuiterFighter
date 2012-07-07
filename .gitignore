@@ -1,0 +1,3 @@
+*.appconfig
+.project
+/node_modules
