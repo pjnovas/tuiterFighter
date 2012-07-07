@@ -1,14 +1,21 @@
 
 var Tuiter = require("tuiter");
 
-exports.init = function(user, emit){
-
 
 	
-	tu.filter({track: ['lol']}, function(stream){
+exports.goAhead = function(keywords, emit){
+		var tu = new Tuiter(require('./twitterKey.json'));
+	
+	tu.filter({track: keywords}, function(stream){
 
 	  // tweets :)
-	  stream.on('tweet', emit); /* function(data){
+	  stream.on('tweet', function(data){
+	  	for(var i = 0; i < keywords.length; i++){
+	  		if(data.text.indexOf(keywords[i])>=0)
+	  			emit(keywords[i], data);	
+	  	}	
+	  	
+	  }); /* function(data){
 	    //res.send(data);
 	  });*/
 	
@@ -23,6 +30,5 @@ exports.init = function(user, emit){
 	  });
 	});
 
-	
 };
  
