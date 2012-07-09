@@ -80,53 +80,28 @@ a {
 	color: #FFF;
 }
 
-#bars {
-	width: 100%;
-	height: 250px;
-	position: relative;
-}
-
-.horizontalBar {
-	border-color: '#aaaaaa';
-	border-width: 1px;
-	border-style: solid;
-	height: 30px;
-	margin: 5px;
-	transition: width 1s;
-	-moz-transition:width 1s; /* Firefox 4 */
-	-webkit-transition:width 1s; /* Safari and Chrome */
-	-o-transition:width 1s; /* Opera */
-}
-
 .verticalBar {
 	border-color: '#aaaaaa';
 	border-width: 1px;
 	border-style: solid;
 	width: 50px;
-	/*margin: 5px;*/
 	transition: height 1s;
 	-moz-transition:height 1s; /* Firefox 4 */
 	-webkit-transition:height 1s; /* Safari and Chrome */
 	-o-transition:height 1s; /* Opera */
 	bottom: 0;	
 	position: absolute;
-	text-align: bottom;
+	border-radius: 5px;
+	text-align: center;
 }
 
 .contentBar {
-	height: 100%;
+	height: 300px;
 	width: 60px;
 	float: left;
 	margin: 5px;
-}
-
-.resultBarText {
-	margin: 5px;
-	-webkit-transform: rotate(-90deg);
-	-moz-transform: rotate(-90deg);
-}
-.tuitKey {
-
+	bottom: 0px;
+	position: relative;
 }
 
 ul.tweets {
