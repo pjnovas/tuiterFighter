@@ -1,5 +1,15 @@
+<script id="seccionKey-tmpl" type="text/template">
+	<section class="tuitKey" id="sec{{keyword}}">
+		<div class="contentBar">
+			<div id="bar{{keyword}}" style="background-color: {{color}};" class="verticalBar" >
+			{{percentage}}
+			</div>
+		</div>
+		<div id="tuitDiv{{keyword}}"></div>		
+	</section>
+</script>
+
 <script id="tuitKey-tmpl" type="text/template">
-	<section class="tuitKey">
 		<h2 class="key">{{keyword}} ({{counter}})</h2>
 		<ul class="tweets">	
 			{{#tweets}}
@@ -10,5 +20,4 @@
 				</li>	
 			{{/tweets}}	
 		</ul>
-	</section>
 </script>

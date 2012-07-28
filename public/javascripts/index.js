@@ -5,59 +5,16 @@ tuiters.fight = (function() {
 	var total = 0
 
 	return {
-		getFightPercentage: function (keyword) { 
+		getFightPercentage: function (keywords, keyword) { 
 			total++;
 
-			console.log(keyword);
-			fightResult[keyword.keyword] = keyword.counter*100/total;
+			fightResult[keyword.keyword] = keywords[keyword].counter*100/total;
 		
-			return fightResult;
+			return fightResult[keyword.keyword];
 		},
 		reset: function () {
 			fightResult = {};
 			total = 0; 
-		}
-	};
-}) ();
-
-tuiters.render = (function () {
-	return {
-		horizontalBars: function(keyword) {
-			$.each(tuiters.fight.getFightPercentage(keyword), function(e){
-			var div = $('#' + e);
-
-				if (!div.length) {
-					div = $('<div id=' + e + '>');
-					div.css('background-color',  getRandomColor());
-					div.addClass('horizontalBar');
-					div.appendTo('#bars');
-				}
-
-				div.text(e + ': ' + redondear(this, 2)) 
-				div.css('width', this + '%');
-			})
-		},
-		verticalBars: function(keyword) {
-			$.each(tuiters.fight.getFightPercentage(keyword), function(e){
-
-				var div = $('#' + e);
-
-				if (!div.length) {
-					div = $('<div id=' + e + '>');
-					div.css('background-color',  getRandomColor());
-					div.addClass('verticalBar');
-
-					div.appendTo($('<div id="contentBar' + e + '">').addClass('contentBar').appendTo('#bars'));
-				}
-				div.empty();
-				var span = $('<span>');
-				span.css('position', 'absolute');
-				span.css('bottom', '10px');
-				span.addClass('resultBarText');
-				//span.text(e + ': ' + redondear(this, 2)).appendTo(div); 
-				span.text(e).appendTo(div); 
-				div.css('height', this + '%');
-			})
 		}
 	};
 }) ();
@@ -69,11 +26,15 @@ socket.on('tweet', function (q) {
 		window.keywords[q.keyword] = {
 			keyword: q.keyword,
 			counter: 0,
+			percentage: 0,
+			color: '',
 			tweets: []
 		};
 	}
 	
 	window.keywords[q.keyword].counter++;
+	window.keywords[q.keyword].color = window.keywords[q.keyword].color == '' ? getRandomColor(): window.keywords[q.keyword].color;
+	window.keywords[q.keyword].percentage = redondear(tuiters.fight.getFightPercentage(window.keywords, q.keyword), 0);
 	window.keywords[q.keyword].tweets.push({
 		text: q.data.text,
 		user: {
@@ -83,7 +44,7 @@ socket.on('tweet', function (q) {
 	});
 
 	//tuiters.render.horizontalBars(window.keywords[q.keyword]);
-	tuiters.render.verticalBars(window.keywords[q.keyword]);
+	//tuiters.render.verticalBars(window.keywords[q.keyword]);
 	rebind();
 });
 
@@ -96,10 +57,8 @@ $(document).on('ready', function(){
 	});
 
 	$('#go').on('click', function(){
-		$('#tweets').empty();
-		$('#bars').empty();
-		tuiters.fight.reset();
 		window.keywords = {};
+		$('section', '#results').remove();
 		socket.emit('newSearch', $('#keywords').val().split(','));
 	});
 
@@ -109,14 +68,33 @@ $(document).on('ready', function(){
 });
 
 function rebind(){
-	$('section', '#results').remove();
+	//$('section', '#results').remove();
 
 	var keyLen = 0;
 	$.each(window.keywords, function(e){
-		var keyCtn = $.mustache($.trim($('#tuitKey-tmpl').html()), this);
-		$(keyCtn).appendTo('#results');
+		//var keyCtn = $.mustache($.trim($('#tuitKey-tmpl').html()), this);
+		//$(keyCtn).appendTo('#results');
+
+		var seccion = $('#sec' + this.keyword);
+		if(!seccion.length) {
+			var keyCtn = $.mustache($.trim($('#seccionKey-tmpl').html()), this);
+			var tuitKeyCtn = $.mustache($.trim($('#tuitKey-tmpl').html()), this);
+			$(keyCtn).appendTo('#results');
+			$(tuitKeyCtn).appendTo($('#tuitDiv' + this.keyword));
+		}
+		else {		
+			$('#tuitDiv' + this.keyword).empty();
+			var tuitKeyCtn = $.mustache($.trim($('#tuitKey-tmpl').html()), this);
+			$(tuitKeyCtn).appendTo($('#tuitDiv' + this.keyword));
+
+			$('#bar' + this.keyword).css('height', this.percentage + '%');
+			$('#bar' + this.keyword).text(this.percentage + '%');
+		}
+
 		keyLen++;
 	});
+
+
 
 	var size = Math.floor(16 / keyLen);
 
@@ -132,7 +110,8 @@ function rebind(){
 		case 16: size = "sixteen"; break;
 	}
 
-	$('section', '#results').addClass(size).addClass('alpha').addClass('columns')
+	$('section', '#results').removeClass();
+	$('section', '#results').addClass(size).addClass('alpha').addClass('columns');
 }
 
 function redondear(cantidad, decimales) {
