@@ -71,6 +71,13 @@ $(document).on('ready', function(){
   $(window).resize(function(){
     $('.select2-container').css('width', '80%');
   });
+
+  $(document).on('click', 'ul.tweets li', function(){
+    var $tweet = $(this);
+    $('.floatingTw').remove();
+    var div = $('<div>').addClass('floatingTw').append($tweet.html());
+    $('body').append(div);
+  });
 });
 
 function rebind(){

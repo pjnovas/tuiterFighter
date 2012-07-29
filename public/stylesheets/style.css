@@ -114,14 +114,15 @@ ul.tweets {
 	padding: 0;
 }
 
-ul.tweets li{
+ul.tweets li, .floatingTw {
 	border: solid 1px silver;
 	background: #1D1D1D;
 	margin: 5px 0;
 	border-radius: 5px;
+	color: white;
 }
 
-ul.tweets li img {
+ul.tweets li img, .floatingTw img {
 	width: 50px;
 	height: 50px;
 	border-radius: 5px;
@@ -130,7 +131,7 @@ ul.tweets li img {
 	float: left;
 }
 
-ul.tweets li span {
+ul.tweets li span, .floatingTw span {
 	height: 50px;
 	display: inline-block;
 	line-height: 3;
@@ -147,3 +148,9 @@ ul.tweets li span {
 	background-color: white;
 }
 
+.floatingTw {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+	width: 400px;
+}
