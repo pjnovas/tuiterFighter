@@ -52,6 +52,10 @@ fighter.init({
     io.sockets.emit("tweet", keyword);
   });
 
+  fight.on('clockTick', function (clock){
+    io.sockets.emit("tick", clock);
+  });
+
   fight.on('finish', function (winner){
     io.sockets.emit("finish", winner);
   });
@@ -61,7 +65,9 @@ fighter.init({
 
 io.sockets.on('connection', function (socket) {
 
-  //socket.emit('current', fighter.getCurrent());
+  var currFight = fighter.getCurrentFight();
+  if (currFight) 
+    socket.emit('start', currFight.keywords);
 
   socket.on('addFight', function (keywords) {
     fighter.addFight(keywords);

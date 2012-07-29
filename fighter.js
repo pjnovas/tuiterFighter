@@ -33,6 +33,10 @@ exports.addFight = function(keywords){
 		nextFight();
 };
 
+exports.getCurrentFight = function(){
+	return currentFight;
+};
+
 function nextFight() {
 	currentFight = fights[0];
 	currentFight.start();

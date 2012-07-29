@@ -6,10 +6,10 @@ tuiters.fight = (function() {
 
   return {
     getFightPercentage: function (keywords, keyword) { 
-      total++;
+      total = 0;
+      for(var i in keywords) total += keywords[i].counter || 0;
 
       fightResult[keyword.keyword] = keywords[keyword].counter*100/total;
-    
       return fightResult[keyword.keyword];
     },
     reset: function () {
@@ -22,8 +22,6 @@ tuiters.fight = (function() {
 var socket = io.connect('http://localhost');
 
 socket.on('tweet', function (keyword) {
-  //console.log(clock.current);
-  
   var key = keyword.keyword;
   window.keywords[key] = keyword;
   
@@ -33,11 +31,18 @@ socket.on('tweet', function (keyword) {
   rebind();
 });
 
+socket.on('tick', function (clock) {
+  $('#clock').text(clock.current);
+});
+
 socket.on('start', function (keywords) {
   window.keywords = {};
   $('section', '#results').remove();
   console.log(keywords);
   window.keywords = keywords;
+
+  $('#clock').text('000000');
+  
   rebind();
 });
 
@@ -86,7 +91,7 @@ function rebind(){
       $(tuitKeyCtn).appendTo($('#tuitDiv' + this.keyword));
 
       $('#bar' + this.keyword).css('height', this.percentage + '%');
-      $('#bar' + this.keyword).text(this.percentage + '%');
+      $('#bar' + this.keyword).text((this.percentage || 0) + '%');
     }
 
     keyLen++;

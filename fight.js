@@ -3,6 +3,7 @@ var events = require('events');
 function Fight(options){
   this.tu = options.tuitter;
 
+  this.tweetsQ = options.tweetsQ || 3;
   this.keys = options.keywords;
   this.keywords = {};  
   for (var i=0; i<options.keywords.length; i++) {
@@ -46,6 +47,8 @@ Fight.prototype.start = function(){
   self.timer = setInterval(function(){
 
     self.clock.current+=1000;
+    self.emit('clockTick', self.clock);
+    
     if (self.clock.current > self.clock.fightTime){
 
       self.stream.emit('end');
@@ -93,7 +96,7 @@ function streaming(stream){
           }
         });
 
-        if (self.keywords[key].tweets.length > 5) {
+        if (self.keywords[key].tweets.length > self.tweetsQ) {
           self.keywords[key].tweets.pop();  
         }
 

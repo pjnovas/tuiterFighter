@@ -2,7 +2,8 @@
 	<section class="tuitKey" id="sec{{keyword}}">
 		<div class="contentBar">
 			<div id="bar{{keyword}}" style="background-color: {{color}};" class="verticalBar" >
-			{{percentage}}
+			{{#percentage}}{{percentage}}{{/percentage}}
+			{{^percentage}}0{{/percentage}}
 			</div>
 		</div>
 		<div id="tuitDiv{{keyword}}"></div>		

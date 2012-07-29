@@ -96,7 +96,7 @@ a {
 }
 
 .contentBar {
-	height: 300px;
+	height: 50px;
 	width: 60px;
 	float: left;
 	margin: 5px;
@@ -104,9 +104,11 @@ a {
 	position: relative;
 }
 
+.contentBar div {
+	line-height: 0;
+}
+
 ul.tweets {
-	overflow-x: hidden;
-	overflow-y: auto;
 	height: 300px;
 	list-style: none;
 	padding: 0;
@@ -133,3 +135,15 @@ ul.tweets li span {
 	display: inline-block;
 	line-height: 3;
 }
+
+#clock {
+	position: absolute;
+	width: 140px;
+	height: 40px;
+	text-align: right;
+	border: solid 2px white;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: white;
+}
+
