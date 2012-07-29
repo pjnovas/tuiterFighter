@@ -6,7 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , socketIO = require('socket.io')
-  , god = require('./godfile.js');
+  , fighter = require('./fighter.js');
 
 var app = module.exports = express.createServer();
 
@@ -33,24 +33,49 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 
-var io = socketIO.listen(app);
-io.sockets.on('connection', function (socket) {
-  socket.on('newSearch', function (data) {
-  	console.log(data);
-    
-   god.goAhead(data, emitIt);
+// SocketIO Init
+
+var io = socketIO.listen(app, {
+  "log level": 1
+});
+
+// Fighter
+
+fighter.init({
+  fightTime: 300000, //5 min
+  breakTime: 180000 //2 min
+}).on('fight', function(fight){
+
+  //io.sockets.emit("started", { keyword: keyword});
+
+  fight.on('tweet', function (keyword){
+    io.sockets.emit("tweet", keyword);
+  });
+
+  fight.on('finish', function (keywords){
+    io.sockets.emit("finish", { keywords: keywords});
   });
 });
 
-function emitIt(keyword, data){
-	io.sockets.emit("tweet", { keyword: keyword, data: data});
-}
+// WebSocket Events
+
+io.sockets.on('connection', function (socket) {
+
+  //socket.emit('current', fighter.getCurrent());
+
+  socket.on('addFight', function (keywords) {
+    fighter.addFight(keywords);
+  });
+
+});
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
 
-
+process.on("uncaughtException", function (err) { 
+  console.log('>>>>>> Unhandled Exception Ocurred: ' + err);
+});
 
 
 

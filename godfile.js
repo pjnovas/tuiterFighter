@@ -1,34 +1,34 @@
+/*
+var Tuiter = require("tuiter"),
+  tu = new Tuiter(require('./twitterKey.json'));
+  
+exports.goAhead = function(keywords, emit) {
+  var stream;
 
-var Tuiter = require("tuiter");
+  function fight(_stream){
+    stream = _stream;
 
+    stream.on('tweet', function(data){
+      for(var i = 0; i < keywords.length; i++){
+        if(data.text.indexOf(keywords[i])>=0) {
+          emit(keywords[i], data);  
+        }
+      } 
+    });
 
-	
-exports.goAhead = function(keywords, emit){
-		var tu = new Tuiter(require('./twitterKey.json'));
-	
-	tu.filter({track: keywords}, function(stream){
+    stream.on('error', function(err){
+      console.log('tuiter error');
+      console.dir(err);
+    });
+  }
 
-	  // tweets :)
-	  stream.on('tweet', function(data){
-	  	for(var i = 0; i < keywords.length; i++){
-	  		if(data.text.indexOf(keywords[i])>=0)
-	  			emit(keywords[i], data);	
-	  	}	
-	  	
-	  }); /* function(data){
-	    //res.send(data);
-	  });*/
-	
-	  // deleted statuses data
-	  stream.on('delete', function(del){
-	    //console.log(del);
-	  });
-	
-	  // errors
-	  stream.on('error', function(err){
-	    console.log(err);
-	  });
-	});
+  if (!stream) {
+    tu.filter({track: keywords}, fight);
+  }
+  else {
+    stream.emit('restart', {track: keywords});
+  }
 
 };
  
+*/
