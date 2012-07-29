@@ -49,7 +49,7 @@ Fight.prototype.start = function(){
     self.clock.current+=1000;
     self.emit('clockTick', self.clock);
     
-    if (self.clock.current > self.clock.fightTime){
+    if (self.clock.current > self.clock.time){
 
       self.stream.emit('end');
       clearInterval(self.timer);

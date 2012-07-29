@@ -32,7 +32,18 @@ socket.on('tweet', function (keyword) {
 });
 
 socket.on('tick', function (clock) {
-  $('#clock').text(clock.current);
+  var ms = clock.time - clock.current;
+  var x = ms / 1000;
+
+  var seconds = x % 60;
+  x /= 60;
+  var minutes = Math.floor(x % 60);
+  /*x /= 60;
+  hours = x % 24;
+  x /= 24;
+  days = x;*/
+
+  $('#clock').text(minutes + ' : ' + seconds);
 });
 
 socket.on('start', function (keywords) {
