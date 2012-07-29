@@ -46,14 +46,14 @@ fighter.init({
   breakTime: 180000 //2 min
 }).on('fight', function(fight){
 
-  //io.sockets.emit("started", { keyword: keyword});
+  io.sockets.emit("start", fight.keywords);
 
   fight.on('tweet', function (keyword){
     io.sockets.emit("tweet", keyword);
   });
 
-  fight.on('finish', function (keywords){
-    io.sockets.emit("finish", { keywords: keywords});
+  fight.on('finish', function (winner){
+    io.sockets.emit("finish", winner);
   });
 });
 

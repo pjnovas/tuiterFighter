@@ -44,16 +44,35 @@ Fight.prototype.start = function(){
   self.clock.startTime = new Date();
 
   self.timer = setInterval(function(){
+
     self.clock.current+=1000;
     if (self.clock.current > self.clock.fightTime){
+
       self.stream.emit('end');
       clearInterval(self.timer);
+
       self.clock.endTime = new Date();
-      self.emit('finish', self.keywords);
+      
+      self.emit('finish', getWinner.call(self));
     }
   }, 1000);
 
 };
+
+function getWinner(){
+  var max = -1,
+    winner = {};
+
+  for (var key in this.keywords){
+    var keyw = this.keywords[key];
+    if (keyw.counter > max){
+      max = keyw.counter;
+      winner = keyw;
+    }
+  }
+
+  return winner;
+}
 
 function streaming(stream){
   var self = this;

@@ -21,18 +21,37 @@ tuiters.fight = (function() {
 
 var socket = io.connect('http://localhost');
 
-socket.on('tweet', function (q) {
-  console.log(q);
-  window.keywords[q.keyword] = q;  
-  window.keywords[q.keyword].percentage = redondear(tuiters.fight.getFightPercentage(window.keywords, q.keyword), 0);
+socket.on('tweet', function (keyword) {
+  //console.log(clock.current);
   
-  //tuiters.render.horizontalBars(window.keywords[q.keyword]);
-  //tuiters.render.verticalBars(window.keywords[q.keyword]);
+  var key = keyword.keyword;
+  window.keywords[key] = keyword;
+  
+  var p = tuiters.fight.getFightPercentage(window.keywords, key);
+  window.keywords[key].percentage = roundIt(p, 0);
+  
   rebind();
 });
 
-$(document).on('ready', function(){
+socket.on('start', function (keywords) {
+  window.keywords = {};
+  $('section', '#results').remove();
+  console.log(keywords);
+  window.keywords = keywords;
+  rebind();
+});
 
+socket.on('finish', function (winner) {
+  console.log('THE WINNER IS!!! ------->' + winner.keyword);
+});
+ 
+socket.on('fightAdded', function (nextFights) {
+
+});
+
+
+$(document).on('ready', function(){
+  window.keywords = {};
   $('#keywords').select2({tags:[]});
 
   $.get('partials/_keyWordContainer.html', function(templates) {
@@ -40,9 +59,8 @@ $(document).on('ready', function(){
   });
 
   $('#go').on('click', function(){
-    window.keywords = {};
-    $('section', '#results').remove();
     socket.emit('addFight', $('#keywords').val().split(','));
+    $('#keywords').select2({tags:[]}).val('');
   });
 
   $(window).resize(function(){
@@ -92,8 +110,8 @@ function rebind(){
   $('section', '#results').addClass(size).addClass('alpha').addClass('columns');
 }
 
-function redondear(cantidad, decimales) {
-  return Math.round(cantidad * Math.pow(10, decimales)) / Math.pow(10, decimales);
+function roundIt(amm, dec) {
+  return Math.round(amm * Math.pow(10, dec)) / Math.pow(10, dec);
 } 
 
 
