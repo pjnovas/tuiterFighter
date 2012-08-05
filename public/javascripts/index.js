@@ -1,23 +1,3 @@
-var tuiters = tuiters || {};
-
-tuiters.fight = (function() {
-  var fightResult = {};
-  var total = 0
-
-  return {
-    getFightPercentage: function (keywords, keyword) { 
-      total = 0;
-      for(var i in keywords) total += keywords[i].counter || 0;
-
-      fightResult[keyword.keyword] = keywords[keyword].counter*100/total;
-      return fightResult[keyword.keyword];
-    },
-    reset: function () {
-      fightResult = {};
-      total = 0; 
-    }
-  };
-}) ();
 
 var socket = io.connect('http://localhost');
 
@@ -25,9 +5,7 @@ socket.on('tweet', function (keyword) {
   var key = keyword.keyword;
   window.keywords[key] = keyword;
   
-  var p = tuiters.fight.getFightPercentage(window.keywords, key);
-  window.keywords[key].percentage = roundIt(p, 0);
-  
+  calculatePercentages();
   rebind();
 });
 
@@ -73,6 +51,18 @@ socket.on('finish', function (winner) {
 socket.on('fightAdded', function (queue) {
   bindQueue(queue);
 });
+
+function calculatePercentages() { 
+  total = 0;
+  for(var i in window.keywords) {
+    total += window.keywords[i].counter || 0;
+  }
+
+  for(var i in window.keywords) {
+    window.keywords[i].percentage = 
+      roundIt(window.keywords[i].counter*100/total, 0);
+  }
+}
 
 function bindQueue(queue){
   var ul = $('#nextFights');
