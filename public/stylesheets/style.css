@@ -34,7 +34,7 @@ a {
 	width: 80%;
 }
 
-.select2-container-multi .select2-choices {
+.select2-container-multi .select2-choices, #clock, #nextFights {
 	font-size:16px;
   color: #999;
   padding: 6px;
@@ -59,10 +59,11 @@ a {
 	background-color: #FFB46F;
 	margin-left: 5px;
 	box-shadow: 1px 1px 1px #C98342 inset;
-	line-height: 1.5;
+	line-height: 0;
 	font-family: 'Averia Gruesa Libre', cursive;
-	font-size: 20px;
+	font-size: 45px;
 	color: #923500;
+	padding-bottom: 8px;
 
 	transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease; 
@@ -71,9 +72,12 @@ a {
 }
 
 #go:hover{
-	box-shadow: 0;
-	background-color: #FFD3AB;
 	cursor: pointer;
+
+	border: solid 2px #129200;
+	background-color: #86FF6F;
+	box-shadow: 1px 1px 1px #5DC942 inset;
+	color: #045C00;
 }
 
 #results {
@@ -139,6 +143,8 @@ ul.tweets li span, .floatingTw span {
 
 #clock {
 	position: absolute;
+	left: 0;
+	bottom: 0;
 	width: 140px;
 	height: 40px;
 	text-align: right;
@@ -146,6 +152,37 @@ ul.tweets li span, .floatingTw span {
 	border-radius: 10px;
 	font-size: 30px;
 	background-color: white;
+	padding: 0 5px;
+	color:black;
+}
+
+#nextFights {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 190px;
+	height: 235px;
+	text-align: right;
+	border: solid 2px white;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: white;
+	padding: 0 5px;
+	color:black;
+}
+
+#nextFights li {
+	border-bottom:dotted 2px silver;
+}
+
+#nextFights li span{
+	margin: 2px;
+	border: solid 1px silver;
+	border-radius: 5px;
 }
 
 .floatingTw {

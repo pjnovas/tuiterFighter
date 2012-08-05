@@ -44,7 +44,6 @@ function nextFight() {
 	exports.emit('fight', currentFight);
 	
 	currentFight.on('finish', function(){
-		
 		setTimeout(function(){
 			//TODO: store the fight
 			fights.shift();	

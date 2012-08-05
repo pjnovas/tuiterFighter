@@ -33,17 +33,23 @@ socket.on('tweet', function (keyword) {
 
 socket.on('tick', function (clock) {
   var ms = clock.time - clock.current;
+
+  if (ms < 0){
+    $('#clock').text('00:00');
+    return;
+  }
+
   var x = ms / 1000;
 
   var seconds = x % 60;
   x /= 60;
   var minutes = Math.floor(x % 60);
-  /*x /= 60;
-  hours = x % 24;
-  x /= 24;
-  days = x;*/
 
-  $('#clock').text(minutes + ' : ' + seconds);
+  function ftNum(num){
+    return (num < 10) ? "0" + num: num; 
+  }
+
+  $('#clock').text(ftNum(minutes) + ' : ' + ftNum(seconds));
 });
 
 socket.on('start', function (keywords) {
@@ -52,7 +58,7 @@ socket.on('start', function (keywords) {
   console.log(keywords);
   window.keywords = keywords;
 
-  $('#clock').text('000000');
+  $('#clock').text('00:00');
   
   rebind();
 });
@@ -87,6 +93,10 @@ $(document).on('ready', function(){
     var $tweet = $(this);
     $('.floatingTw').remove();
     var div = $('<div>').addClass('floatingTw').append($tweet.html());
+    div.click(function(){
+      $(this).remove();
+    });
+    
     $('body').append(div);
   });
 });

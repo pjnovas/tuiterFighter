@@ -35,6 +35,7 @@ Fight.prototype.start = function(){
 
   if (!self.stream){
     self.tu.filter({track: self.keys}, function(stream){
+      self.stream = stream;
       streaming.call(self, stream);
     });
   }

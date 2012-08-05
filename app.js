@@ -42,7 +42,7 @@ var io = socketIO.listen(app, {
 // Fighter
 
 fighter.init({
-  fightTime: 300000, //5 min
+  fightTime: 50000, //1 min
   breakTime: 180000 //2 min
 }).on('fight', function(fight){
 
@@ -82,6 +82,4 @@ app.listen(3000, function(){
 process.on("uncaughtException", function (err) { 
   console.log('>>>>>> Unhandled Exception Ocurred: ' + err);
 });
-
-
 
