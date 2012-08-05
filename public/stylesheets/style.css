@@ -144,7 +144,7 @@ ul.tweets li span, .floatingTw span {
 #clock {
 	position: absolute;
 	left: 0;
-	bottom: 0;
+	top: 0;
 	width: 140px;
 	height: 40px;
 	text-align: right;
@@ -183,6 +183,10 @@ ul.tweets li span, .floatingTw span {
 	margin: 2px;
 	border: solid 1px silver;
 	border-radius: 5px;
+	font-size: 12px;
+	font-family: Arial;
+	padding: 3px;
+	background-color: silver;
 }
 
 .floatingTw {

@@ -49,13 +49,16 @@ socket.on('tick', function (clock) {
     return (num < 10) ? "0" + num: num; 
   }
 
-  $('#clock').text(ftNum(minutes) + ' : ' + ftNum(seconds));
+  $('#clock').text(ftNum(minutes) + ':' + ftNum(seconds));
 });
 
-socket.on('start', function (keywords) {
+socket.on('start', function (status) {
+  bindQueue(status.queueFights);
+
+  keywords = status.currentFight;
   window.keywords = {};
   $('section', '#results').remove();
-  console.log(keywords);
+
   window.keywords = keywords;
 
   $('#clock').text('00:00');
@@ -67,10 +70,17 @@ socket.on('finish', function (winner) {
   console.log('THE WINNER IS!!! ------->' + winner.keyword);
 });
  
-socket.on('fightAdded', function (nextFights) {
-
+socket.on('fightAdded', function (queue) {
+  bindQueue(queue);
 });
 
+function bindQueue(queue){
+  var ul = $('#nextFights');
+  $('li', ul).remove();
+
+  var lis = $.mustache($.trim($('#queueFights-tmpl').html()), {fights: queue});
+  $(lis).appendTo(ul);
+}
 
 $(document).on('ready', function(){
   window.keywords = {};
@@ -82,7 +92,7 @@ $(document).on('ready', function(){
 
   $('#go').on('click', function(){
     socket.emit('addFight', $('#keywords').val().split(','));
-    $('#keywords').select2({tags:[]}).val('');
+    $('#keywords').val('').select2({tags:[]}).val('');
   });
 
   $(window).resize(function(){
@@ -96,7 +106,7 @@ $(document).on('ready', function(){
     div.click(function(){
       $(this).remove();
     });
-    
+
     $('body').append(div);
   });
 });

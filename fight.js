@@ -5,7 +5,9 @@ function Fight(options){
 
   this.tweetsQ = options.tweetsQ || 3;
   this.keys = options.keywords;
+
   this.keywords = {};  
+  
   for (var i=0; i<options.keywords.length; i++) {
     var key = options.keywords[i];
     
@@ -17,14 +19,6 @@ function Fight(options){
     };
   }
 
-  this.clock = {
-    time: options.fightTime,
-    current: 0,
-    startTime: null,
-    endTime: null
-  };
-
-  this.timer;
 }
 
 module.exports = Fight;
@@ -43,24 +37,11 @@ Fight.prototype.start = function(){
     self.stream.emit('restart', {track: self.keys});
   }
 
-  self.clock.startTime = new Date();
+};
 
-  self.timer = setInterval(function(){
-
-    self.clock.current+=1000;
-    self.emit('clockTick', self.clock);
-    
-    if (self.clock.current > self.clock.time){
-
-      self.stream.emit('end');
-      clearInterval(self.timer);
-
-      self.clock.endTime = new Date();
-      
-      self.emit('finish', getWinner.call(self));
-    }
-  }, 1000);
-
+Fight.prototype.stop = function(){
+  this.stream.emit('end');
+  this.emit('finish', getWinner.call(this));
 };
 
 function getWinner(){

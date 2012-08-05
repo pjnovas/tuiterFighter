@@ -11,14 +11,24 @@
 </script>
 
 <script id="tuitKey-tmpl" type="text/template">
-		<h2 class="key">{{keyword}} ({{counter}})</h2>
-		<ul class="tweets">	
-			{{#tweets}}
-				<li>
-					<img src="{{user.image}}">
-					<span>@{{user.name}}</span>
-					<p>{{text}}</p>
-				</li>	
-			{{/tweets}}	
-		</ul>
+	<h2 class="key">{{keyword}} ({{counter}})</h2>
+	<ul class="tweets">	
+		{{#tweets}}
+			<li>
+				<img src="{{user.image}}">
+				<span>@{{user.name}}</span>
+				<p>{{text}}</p>
+			</li>	
+		{{/tweets}}	
+	</ul>
+</script>
+
+<script id="queueFights-tmpl" type="text/template">
+	{{#fights}}
+		<li>
+			{{#keywords}}
+			<span>{{.}}</span>
+			{{/keywords}}
+		</li>	
+	{{/fights}}	
 </script>

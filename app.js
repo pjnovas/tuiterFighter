@@ -42,23 +42,26 @@ var io = socketIO.listen(app, {
 // Fighter
 
 fighter.init({
-  fightTime: 50000, //1 min
-  breakTime: 180000 //2 min
+  fightTime: 60000, //1 min
+  breakTime: 30000 //30 secs
 }).on('fight', function(fight){
 
-  io.sockets.emit("start", fight.keywords);
+  var queue = fighter.getQueueFights();
+  io.sockets.emit("start", {
+    currentFight: fight.keywords,
+    queueFights: queue 
+  });
 
   fight.on('tweet', function (keyword){
     io.sockets.emit("tweet", keyword);
   });
 
-  fight.on('clockTick', function (clock){
-    io.sockets.emit("tick", clock);
-  });
-
   fight.on('finish', function (winner){
     io.sockets.emit("finish", winner);
   });
+
+}).on('clockTick', function(clock){
+  io.sockets.emit("tick", clock);
 });
 
 // WebSocket Events
@@ -66,11 +69,18 @@ fighter.init({
 io.sockets.on('connection', function (socket) {
 
   var currFight = fighter.getCurrentFight();
-  if (currFight) 
-    socket.emit('start', currFight.keywords);
+  if (currFight) {
+    var queue = fighter.getQueueFights();
+
+    socket.emit('start', { 
+      currentFight: currFight.keywords,
+      queueFights: queue  
+    });
+  }
 
   socket.on('addFight', function (keywords) {
     fighter.addFight(keywords);
+    io.sockets.emit("fightAdded", fighter.getQueueFights());
   });
 
 });
@@ -78,8 +88,8 @@ io.sockets.on('connection', function (socket) {
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
-
+/*
 process.on("uncaughtException", function (err) { 
   console.log('>>>>>> Unhandled Exception Ocurred: ' + err);
 });
-
+*/
