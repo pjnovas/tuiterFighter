@@ -1,0 +1,403 @@
+
+@font-face {
+	font-family: 'tuiterfighter';
+	src: url('../fonts/BADABB__/BADABB__.eot');
+	src: local('☺'), url('../fonts/BADABB__/BADABB__.woff') format('woff'), url('../fonts/BADABB__/BADABB__.ttf') format('truetype'), url('../fonts/BADABB__/BADABB__.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	background-color:white;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	color:black;
+	font-size:12px;
+}
+
+#fighter-ctn {
+	font-family:'tuiterfighter', sans-serif;
+
+	width: 800px; 
+	height:750px; 
+
+	position: relative;
+	overflow: hidden;
+	
+	border-radius: 20px; 
+	box-shadow: 0px 0px 20px #052B05;
+	background: url('../img/bg.png'); 
+	margin: 0 auto;
+}
+
+#canvasFight {
+	border-radius: 20px 20px 0 0; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  z-index: 1;	
+}
+
+
+
+/*************************************
+* Status Bar
+*************************************/
+
+.statusBar {
+	position: absolute;
+	top: 20px;
+	width: 350px;
+	height: 57px;
+	z-index: 2;
+
+	background: url('../img/life-bar.png'); 
+	background-repeat: no-repeat;
+
+	transition: top 1s ease;
+	-moz-transition: top 1s ease;
+	-webkit-transition: top 1s ease;
+	-o-transition: top 1s ease;
+}
+
+.statusBar.hidden {
+	top: -100px;
+}
+
+.statusBar.left {
+	left: 10px;
+	background-position: 0 0;
+}
+
+.statusBar.right {
+	right:10px;
+	background-position: 0 -57px;
+}
+
+.statusBar .life-ctn {
+	position: absolute;
+	top: 30px;
+	width: 245px;
+	height: 15px;
+	z-index: 3;
+
+}
+
+.statusBar .word {
+	position: absolute;
+	bottom: -32px;
+	z-index: 4;
+	padding: 2px 20px;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: white;
+	font-size: 20pt;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	width: 270px;
+}
+
+.statusBar.left .word {
+	left: 0px;
+	text-align: left;
+}
+
+.statusBar.right .word {
+	right: -2px;
+	text-align: right;
+}
+
+.statusBar.left .life-ctn {
+	right: 15px;
+}
+
+.statusBar.right .life-ctn {
+	left: 17px;
+}
+
+
+.statusBar .life-ctn .life {
+	z-index: 5;
+}
+
+.statusBar .life-ctn .life-min {
+	z-index: 4;
+}
+
+.statusBar .life-ctn .glass {
+	z-index: 6;
+}
+
+.statusBar.left .life-ctn .life,
+.statusBar.left .life-ctn .life-min,
+.statusBar.left .life-ctn .glass,
+.statusBar.right .life-ctn .life,
+.statusBar.right .life-ctn .life-min,
+.statusBar.right .life-ctn .glass {
+	position: absolute;
+	top: 0;
+	
+	width: 0%;
+	height: 15px;
+
+	background: url('../img/life-bar.png');
+	background-repeat: no-repeat;
+
+	transition: width 1s ease;
+	-moz-transition: width 1s ease;
+	-webkit-transition: width 1s ease;
+	-o-transition: width 1s ease;
+}
+
+.statusBar.left .life-ctn .life {
+	right: 0;
+	background-position: right -118px;
+}
+
+.statusBar.right .life-ctn .life {
+	left: 0;	
+	background-position: left -140px;
+}
+
+.statusBar.left .life-ctn .life-min {
+	right: 0;
+	background: #A82A2A;
+}
+
+.statusBar.right .life-ctn .life-min {
+	left: 0;	
+	background: #A82A2A;
+}
+
+.statusBar.left .life-ctn .glass {
+	right: -5px;
+	background-position: 0px -164px;
+	width: 255px;
+}
+
+.statusBar.right .life-ctn .glass {
+	left: -5px;	
+	background-position: 0px -184px;
+	width: 255px;
+}
+
+.statusBar.left .word,
+.statusBar.right .word div,
+.statusBar.left .life-ctn .life,
+.statusBar.left .life-ctn .life-min {
+	-o-transform: skew(-22deg);
+	-ms-transform: skew(-22deg);
+	-webkit-transform: skew(-22deg);
+	-moz-transform: skewX(-22deg);
+}
+
+.statusBar.right .word,
+.statusBar.left .word div,
+.statusBar.right .life-ctn .life,
+.statusBar.right .life-ctn .life-min {
+	-o-transform: skew(22deg);
+	-ms-transform: skew(22deg);
+	-webkit-transform: skew(22deg);
+	-moz-transform: skewX(22deg);
+}
+
+/*************************************
+* Legends
+*************************************/
+.ready {
+	z-index: 8;
+}
+
+.ready span, .fight, .ko, .timesup {
+	position: absolute;
+	text-transform: uppercase;
+	z-index: 5;
+
+	transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+}
+
+.fight {
+	color: yellow;
+	text-shadow: black 10px 10px 0;	
+	z-index: 9;
+}
+
+.fight.A {
+	opacity: 0;
+	font-size: 500px;
+	top: 50px;
+	left: -100px;
+}
+
+.fight.B {
+	opacity: 1;
+	font-size: 165px;
+	letter-spacing: 30px;
+	top: 150px;
+	left: 150px;
+}
+
+.ready span {
+	color: #ff2d04;
+	text-shadow: black 10px 10px 0;
+}
+
+.ready span.A {
+	text-indent: 100px;
+	letter-spacing: 1500px;
+	opacity: 0;
+	font-size: 1500px;
+	top: -200px;
+	left: 100px;
+}
+
+.ready span.B {
+	opacity: 1;
+	font-size: 165px;
+	top: 150px;
+}
+
+.ready span.B.x0 {
+	left: 100px;
+}
+.ready span.B.x1 {
+	left: 200px;
+}
+.ready span.B.x2 {
+	left: 300px;
+}
+.ready span.B.x3 {
+	left: 400px;
+}
+.ready span.B.x4 {
+	left: 500px;
+}
+.ready span.B.x5 {
+	left: 600px;
+}
+
+.ready span.C {
+	opacity: 0;
+}
+
+.ko {
+	color: #9B0000;
+	text-shadow: -3px 0 white, 0 3px white, 3px 0 white, 0 -3px white;
+	z-index: 9;
+
+	-webkit-transform: rotate(-18deg);
+	-moz-transform: rotate(-18deg);
+	-ms-transform: rotate(-18deg);
+	-o-transform: rotate(-18deg);
+
+	opacity: 0;
+	font-size: 1px;
+	top: 300px;
+	left: 400px;
+}
+
+.ko.show {
+	opacity: 1;
+	font-size: 500px;
+	top: 5px;
+	left: 30px;
+}
+
+.timesup {
+	color: #BAC914;
+	text-shadow: 2px 0 #D3D3A9, 0 2px #D3D3A9, 1px 0 #D3D3A9, 0 1px #D3D3A9;
+	z-index: 9;
+
+	-webkit-transform: rotate(-10deg);
+	-moz-transform: rotate(-10deg);
+	-ms-transform: rotate(-10deg);
+	-o-transform: rotate(-10deg);
+
+	opacity: 0;
+	font-size: 1px;
+	top: 300px;
+	left: 400px;
+}
+
+.timesup.show {
+	opacity: 1;
+	font-size: 150px;
+	top: 200px;
+	left: 125px;
+}
+
+/*************************************
+* Legends - HITS
+*************************************/
+
+.hitLegend {
+	color: #8AADBB;
+	text-shadow: black 3px 4px 1px;
+	font-size: 50px;
+	
+	position: absolute;
+	z-index: 4;
+	top: 140px;
+
+	transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+}
+
+.hitLegend.blue {
+	color: #8AADBB;
+}
+
+.hitLegend.red {
+	color: #E71010;
+}
+
+.hitLegend.yellow {
+	color: #E7E710;
+}
+
+.hitLegend.left.hide {
+	left: -250px;
+}
+
+.hitLegend.left.show {
+	left: 150px;
+}
+
+.hitLegend.right.hide {
+	right: -250px;
+}
+
+.hitLegend.right.show {
+	right: 150px;
+}
+
+/*************************************
+* Tweets
+*************************************/
+
+.tweets {
+	position: absolute;
+	border: solid 1px green;
+	height: 280px;
+	bottom: 10px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 350px;
+	background-color: green;
+}
+
+.tweets.left{
+	left: 30px;
+}
+
+.tweets.right{
+	right: 30px;
+}
+
+
+
+
