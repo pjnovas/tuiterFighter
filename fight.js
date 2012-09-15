@@ -23,8 +23,6 @@ function Fight(options){
       hit: false
     }
   };
-  
-  this.stopped = false;
 }
 
 module.exports = Fight;
@@ -47,30 +45,12 @@ Fight.prototype.start = function(){
 
 Fight.prototype.stop = function(){
   this.stream.emit('end');
-  
   this.emit('finish');
-
-  //this.emit('finish', getWinner.call(this));
 };
 
 Fight.prototype.getBirds = function(){
   return this.birds;
 };
-
-function getWinner(){
-  var max = -1,
-    winner = {};
-
-  for (var key in this.keywords){
-    var keyw = this.keywords[key];
-    if (keyw.counter > max){
-      max = keyw.counter;
-      winner = keyw;
-    }
-  }
-
-  return winner;
-}
 
 function streaming(stream){
   var self = this;
@@ -120,6 +100,7 @@ function streaming(stream){
       self.birds[which].hit = false;
 
       if (self.birds[oposite].life <= 0){
+        self.birds[oposite].life = 0;
         self.stop();
       }
     }

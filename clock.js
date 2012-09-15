@@ -2,7 +2,7 @@
 var events = require('events');
 
 function Clock(_time){
-  this.time = _time; //in miliseconds
+  this.timeInit = _time;
   this.current = 0;
   this.startTime = null;
   this.endTime = null;
@@ -16,6 +16,7 @@ Clock.prototype = new events.EventEmitter;
 
 Clock.prototype.start = function(){
 	var self = this;
+  self.time = self.timeInit;
 
 	self.stop();
 	self.startTime = new Date();
@@ -24,6 +25,7 @@ Clock.prototype.start = function(){
 
     self.current += self.step;
     var secs = self.getSeconds();
+
     self.emit('tick', secs);
 
     if (self.current > self.time){
@@ -44,13 +46,10 @@ Clock.prototype.stop = function(){
 
 Clock.prototype.getSeconds = function(){
   var ms = this.time - this.current;
-
+  
   if (ms < 0){
     return 0;
   }
 
-  var x = ms / 1000;
-  var seconds = x % 60;
-
-  return seconds;
+  return ms / 1000;
 };

@@ -43,18 +43,14 @@ var io = socketIO.listen(app, {
 fighter.init({
   fightTime: 99000, //99 seconds
   breakTime: 30000 //30 secs
-}).on('fight', function(state){
-
+}).on('fightStart', function(state){
   io.sockets.emit("change", state);
-
-  var currFight = fighter.getCurrentFight();
-  currFight.on('tweet', function(_state){
-    if (!currFight.stopped)
-      io.sockets.emit("change", _state);
-  });
-
-}).on('clockTick', function(state){
+}).on('tweet', function(state){
   io.sockets.emit("change", state);
+}).on('fightEnd', function(state){
+  io.sockets.emit("change", state);
+}).on('clockTick', function(time){
+  io.sockets.emit("clockTick", time);
 });
 
 var fighterConfig = {
@@ -76,10 +72,14 @@ var fighterConfig = {
 
 io.sockets.on('connection', function (socket) {
 
-  socket.emit('start', fighterConfig);
+  socket.emit('start', {
+    config: fighterConfig,
+    current: fighter.currentState()
+  });
 
   socket.on('addFight', function (keywords) {
-    fighter.addFight(keywords);
+    keys = [keywords[0], keywords[1]];
+    fighter.addFight(keys);
   });
 
 });

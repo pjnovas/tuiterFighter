@@ -1,4 +1,4 @@
-/*! tuiterFighter - v0.1.0 - 2012-09-14
+/*! tuiterFighter - v0.1.0 - 2012-09-15
 * http://tuiterfighter.com
 * Copyright (c) 2012 Pablo Novas; Licensed XXX */
 
@@ -2783,7 +2783,7 @@ fighter.Bird = function(options){
     var side = 'Right';
     punchs++;
 
-    if (life === 100 && oponent.life() <= 100 && oponent.life() > 97)
+    if (life === 100 && oponent.life() < 100 && oponent.life() >= 98)
       hitManager.firstPunch();      
 
     hitManager.punch();
@@ -3070,6 +3070,10 @@ fighter.clock = (function(){
 
     setTime: function(number){
       seconds = number;
+    },
+
+    getTime: function(){
+      return seconds;
     }
   };
 
@@ -3585,11 +3589,13 @@ fighter.manager = (function() {
 			return this;
 		},
 
+		clockTick: function(time){
+			fighter.match.time(time);
+		},
+
 		update: function(fightState){
 			var currState = fightState.state,
 				states = fighter.fightStates;
-
-			fighter.match.set(currState);
 
 			switch(currState){
 				case states.idle:
@@ -3614,7 +3620,6 @@ fighter.manager = (function() {
 					fighter.splash.run('ready', function(){
 						
 						fighter.match.life(fightState.birds.left.life, fightState.birds.right.life);
-						fighter.match.time(fightState.clock.time);
 						fighter.match.begin();
 
 						setTimeout(function(){
@@ -3631,10 +3636,9 @@ fighter.manager = (function() {
 					break;
 				case states.fighting:
 
-					fighter.match.words(fightState.birds.left.word, fightState.birds.right.name);
+					fighter.match.words(fightState.birds.left.word, fightState.birds.right.word);
 					fighter.match.life(fightState.birds.left.life, fightState.birds.right.life);
-				  fighter.match.time(fightState.clock.time);
-
+				  
 					fighter.match.set(states.fighting);
 
 					break;
@@ -3650,9 +3654,8 @@ fighter.manager = (function() {
 				case states.endFight:
 
 					fighter.match.life(fightState.birds.left.life, fightState.birds.right.life);
-					fighter.match.time(fightState.clock.time);
-
-					if (fightState.clock.time === 0){
+					
+					if (fighter.clock.getTime() === 0){
 
 						fighter.match.timesUp(function(){
 							if (fightState.birds.left.life === fightState.birds.right.life){
@@ -3670,6 +3673,8 @@ fighter.manager = (function() {
 						}
 						else fighter.match.winPunch('left');
 					}
+
+					fighter.match.set(states.endFight);
 
 					break;
 				default: 

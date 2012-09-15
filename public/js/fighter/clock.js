@@ -159,6 +159,10 @@ fighter.clock = (function(){
 
     setTime: function(number){
       seconds = number;
+    },
+
+    getTime: function(){
+      return seconds;
     }
   };
 

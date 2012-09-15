@@ -1,16 +1,20 @@
 
 var socket = io.connect('http://localhost');
 
-socket.on('start', function (config) {
-	
+socket.on('start', function (init) {
+
 	fighter.manager.on('ready', function(){
+    fighter.manager.update(init.current);
 
 		socket.on('change', function(state){
-			console.dir(state);
 			fighter.manager.update(state);
 		});
 
-	}).load('canvasFight', config);
+    socket.on('clockTick', function(time){
+      fighter.manager.clockTick(time);
+    });
+
+	}).load('canvasFight', init.config);
 
 });
 
