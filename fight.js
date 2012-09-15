@@ -1,24 +1,30 @@
-var events = require('events');
+var events = require('events'),
+  fightStates = require('./fightStates.js');
 
 function Fight(options){
   this.tu = options.tuitter;
 
-  this.tweetsQ = options.tweetsQ || 3;
+  this.tweetsQ = options.tweetsQ || 2;
   this.keys = options.keywords;
+  this.taker = options.lifeTaker || 2;
+  this.stream = null;
 
-  this.keywords = {};  
+  this.birds = {
+    left: {
+      word: this.keys[0],
+      life: 100,
+      tweets: [],
+      hit: false
+    },
+    right: {
+      word: this.keys[1],
+      life: 100,
+      tweets: [],
+      hit: false
+    }
+  };
   
-  for (var i=0; i<options.keywords.length; i++) {
-    var key = options.keywords[i];
-    
-    this.keywords[key] = {
-      keyword: key,
-      counter: 0,
-      color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6),
-      tweets: []
-    };
-  }
-
+  this.stopped = false;
 }
 
 module.exports = Fight;
@@ -41,7 +47,14 @@ Fight.prototype.start = function(){
 
 Fight.prototype.stop = function(){
   this.stream.emit('end');
-  this.emit('finish', getWinner.call(this));
+  
+  this.emit('finish');
+
+  //this.emit('finish', getWinner.call(this));
+};
+
+Fight.prototype.getBirds = function(){
+  return this.birds;
 };
 
 function getWinner(){
@@ -63,32 +76,60 @@ function streaming(stream){
   var self = this;
 
   stream.on('tweet', function(data){
+    var twText = data.text,
+      isLeft = false,
+      isRight = false,
+      which = '',
+      oposite = '';
 
-    for(var key in self.keywords){
+    if (twText.indexOf(self.birds.left.word) >= 0){
+      isLeft = true;
+      which = 'left';
+      oposite = 'right';
+    }
 
-      if(data.text.indexOf(self.keywords[key].keyword) >= 0){
-        
-        self.keywords[key].counter++;
+    if (twText.indexOf(self.birds.right.word) >= 0) {
+      isRight = true;
+      which = 'right';
+      oposite = 'left';
+    }
 
-        self.keywords[key].tweets.unshift({
-          text: data.text,
-          user: {
-            name: data.user.screen_name,
-            image: data.user.profile_image_url
-          }
-        });
+    if (!(isLeft && isRight) || (!isLeft && !isRight)) {
 
-        if (self.keywords[key].tweets.length > self.tweetsQ) {
-          self.keywords[key].tweets.pop();  
+      self.birds[which].tweets.unshift({
+        text: twText,
+        user: {
+          name: data.user.screen_name,
+          image: data.user.profile_image_url
         }
+      });
 
-        self.emit('tweet', self.keywords[key]);
+      if (self.birds[which].tweets.length > self.tweetsQ) {
+        self.birds[which].tweets.pop();  
+      }
+      
+      self.birds[oposite].life -= self.taker;
+
+      self.birds[which].hit = true;
+      
+      self.emit('tweet', {
+        state: fightStates.tweet,
+        birds: self.birds
+      });
+      
+      self.birds[which].hit = false;
+
+      if (self.birds[oposite].life <= 0){
+        self.stop();
       }
     }
 
   });
 
+
   stream.on('error', function(err){
-    console.log(err);
+    //console.log('Tuiter Error' + err);
+    //console.dir(err);
   });
+
 }

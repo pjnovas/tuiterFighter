@@ -3,7 +3,8 @@ var events = require('events'),
 	Fight = require('./fight.js'),
 	Clock = require('./clock.js'),
   Tuiter = require("tuiter"),
-  tu = new Tuiter(require('./twitterKey.json'));
+  tu = new Tuiter(require('./twitterKey.json')),
+  fightStates = require('./fightStates.js');
 
 var fightClock = null,
 	waitClock = null,
@@ -11,6 +12,17 @@ var fightClock = null,
 	currentFight = null;
 
 var exports = module.exports = new events.EventEmitter();
+
+function getFightState(_state, _birds, _time){
+	
+	return {
+		state: _state,
+		birds: _birds,
+		clock: {
+			time: _time
+		}
+	};
+}
 
 exports.init = function(options){
 
@@ -20,23 +32,31 @@ exports.init = function(options){
 	  waitClock = new Clock(breakTime);
 	  fightClock = new Clock(fightTime);
 
-	  fightClock.on('tick', function(status){
-	  	status.label = 'Fighting';
+	  fightClock.on('tick', function(seconds){
+			var status = getFightState(fightStates.fighting, currentFight.getBirds(), seconds);
 	  	exports.emit('clockTick', status);
 	  });
 
 	  waitClock.on('tick', function(status){
-	  	status.label = 'Waiting';
+	  	var status = getFightState(fightStates.waiting, {}, seconds);
 	  	exports.emit('clockTick', status);
 	  });
 
 	  fightClock.on('timeup', function(){
 	  	currentFight.stop();
+
+	  	var status = getFightState(fightStates.endFight, currentFight.getBirds(), 0);
+	  	exports.emit('clockTick', status);
+
+	  	if (!waitClock)
+	  		waitClock = new Clock(breakTime);
+
 	  	waitClock.start();
 	  });
 
 	  waitClock.on('timeup', function(){
 	  	//TODO: store the fight
+
 	  	currentFight = null;
 	  	fights.shift();
 
@@ -77,8 +97,29 @@ exports.getQueueFights = function(){
 
 function runFight() {
 	currentFight = fights[0];
-	currentFight.start();
-	exports.emit('fight', currentFight);
 
-	fightClock.start();
+	currentFight.on('finish', function(){
+		fightClock.stop();
+		var status = getFightState(fightStates.endFight, currentFight.getBirds(), fightClock.getSeconds());
+  	exports.emit('clockTick', status);
+
+		currentFight = null;
+  	fights.shift();
+
+  	if (fights.length > 0) {
+			runFight();
+		}
+
+  	if (!waitClock)
+	  		waitClock = new Clock(30000);
+
+  	waitClock.start();
+	});
+	
+	exports.emit('fight', getFightState(fightStates.startFight, currentFight.getBirds(), 99));
+
+	setTimeout(function(){
+		currentFight.start();
+		fightClock.start();
+	}, 5000);
 }

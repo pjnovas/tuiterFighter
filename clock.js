@@ -23,12 +23,9 @@ Clock.prototype.start = function(){
   self.timer = setInterval(function(){
 
     self.current += self.step;
-    self.emit('tick', {
-	    time: self.time,
-	    current: self.current,
-	    startTime: self.startTime
-	  });
-    
+    var secs = self.getSeconds();
+    self.emit('tick', secs);
+
     if (self.current > self.time){
 			clearInterval(self.timer);
 			self.endTime = new Date();
@@ -45,3 +42,15 @@ Clock.prototype.stop = function(){
 	this.endTime = new Date();
 };
 
+Clock.prototype.getSeconds = function(){
+  var ms = this.time - this.current;
+
+  if (ms < 0){
+    return 0;
+  }
+
+  var x = ms / 1000;
+  var seconds = x % 60;
+
+  return seconds;
+};

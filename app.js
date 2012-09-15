@@ -34,7 +34,6 @@ app.configure('production', function(){
 app.get('/', routes.index);
 
 // SocketIO Init
-
 var io = socketIO.listen(app, {
   "log level": 1
 });
@@ -42,45 +41,45 @@ var io = socketIO.listen(app, {
 // Fighter
 
 fighter.init({
-  fightTime: 60000, //1 min
+  fightTime: 99000, //99 seconds
   breakTime: 30000 //30 secs
-}).on('fight', function(fight){
+}).on('fight', function(state){
 
-  var queue = fighter.getQueueFights();
-  io.sockets.emit("start", {
-    currentFight: fight.keywords,
-    queueFights: queue 
+  io.sockets.emit("change", state);
+
+  var currFight = fighter.getCurrentFight();
+  currFight.on('tweet', function(_state){
+    if (!currFight.stopped)
+      io.sockets.emit("change", _state);
   });
 
-  fight.on('tweet', function (keyword){
-    io.sockets.emit("tweet", keyword);
-  });
-
-  fight.on('finish', function (winner){
-    io.sockets.emit("finish", winner);
-  });
-
-}).on('clockTick', function(clock){
-  io.sockets.emit("tick", clock);
+}).on('clockTick', function(state){
+  io.sockets.emit("change", state);
 });
+
+var fighterConfig = {
+  resources: {
+    scenaries: [{
+      name: 'forest',
+      bg: 'img/bg.png',
+      floor: 'img/frustum.png'
+    }],
+    sprites: {
+      bird: 'img/bird-tiles.png',
+      hits: 'img/text.png',
+      clock: 'img/clock.png'
+    }
+  }
+};
 
 // WebSocket Events
 
 io.sockets.on('connection', function (socket) {
 
-  var currFight = fighter.getCurrentFight();
-  if (currFight) {
-    var queue = fighter.getQueueFights();
-
-    socket.emit('start', { 
-      currentFight: currFight.keywords,
-      queueFights: queue  
-    });
-  }
+  socket.emit('start', fighterConfig);
 
   socket.on('addFight', function (keywords) {
     fighter.addFight(keywords);
-    io.sockets.emit("fightAdded", fighter.getQueueFights());
   });
 
 });
@@ -88,8 +87,10 @@ io.sockets.on('connection', function (socket) {
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
+
 /*
 process.on("uncaughtException", function (err) { 
   console.log('>>>>>> Unhandled Exception Ocurred: ' + err);
 });
 */
+

@@ -14,7 +14,6 @@ module.exports = function(grunt) {
       fighter: {
         src: [
            '<banner:meta.banner>'
-          ,'public/js/libs/requestAnimationFrame-polyfill.js'
           ,'public/js/fighter/states.js'
           ,'public/js/fighter/config/bird/sizes.js'
           ,'public/js/fighter/config/bird/tiles.js'
@@ -23,6 +22,7 @@ module.exports = function(grunt) {
           ,'public/js/fighter/config/text/sizes.js'
           ,'public/js/fighter/config/text/tiles.js'
           ,'public/js/fighter/config/clock/sizes.js'
+          ,'public/js/fighter/config/clock/tiles.js'
           ,'public/js/fighter/repository.js'
           ,'public/js/fighter/hitManager.js'
           ,'public/js/fighter/animation.js'
