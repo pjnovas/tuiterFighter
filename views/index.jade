@@ -1,20 +1,21 @@
 div.container
-	div.sixteen.columns
+	div.full-row
 		h1
 			span T
 			| uiter
 			span  F
 			| ighter !
 
-	div.sixteen.columns
+	div.full-row
 		p.slogan Which words are gonna being fighting on Twitter?
 		
-	div.sixteen.columns
+	div.fixed-row-600
 		div.addFight
 			input#wordLeft(type="text")
 			span.vs VS
 			input#wordRight(type="text")
 		button#go Go!
 
-	div#fighter-ctn
-		canvas#canvasFight(width="800", height="480")
+	div.full-row
+		div#fighter-ctn
+			canvas#canvasFight(width="800", height="480")

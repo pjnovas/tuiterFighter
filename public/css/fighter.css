@@ -13,6 +13,22 @@ body {
 	font-style: normal;
 }
 
+.container {
+	position: relative;
+	width: 865px; /*960px;*/
+	margin: 0 auto;
+	padding: 0;
+}
+
+.container .full-row {
+	width: 100%;
+}
+
+.container .fixed-row-600 {
+	width: 615px;
+	margin: 0 auto;
+}
+
 h1 {
 	font-family: 'tuiterfighter';
 	color: #FF5200;
@@ -30,10 +46,11 @@ h1 span {
 .slogan {
 	text-align: center;
 	color: #FFF;
+	font-size: 16px;
 }
 
 .addFight {
-	margin: 5px 0 30px 235px;
+	margin: 5px 0 30px 70px;
 	width: 460px;
 	float: left;
 }
@@ -478,6 +495,7 @@ h1 span {
 	position: absolute;
 	width: 270px;
 	height: 95px;
+	overflow: hidden;
 }
 
 .tuits .left.t0,
