@@ -1,23 +1,20 @@
 div.container
 	div.sixteen.columns
-		h1= title
+		h1
+			span T
+			| uiter
+			span  F
+			| ighter !
 
 	div.sixteen.columns
 		p.slogan Which words are gonna being fighting on Twitter?
 		
 	div.sixteen.columns
-		div.eight.columns.offset-by-four.content
-			input#keywords(type="text")
-			button#go +
+		div.addFight
+			input#wordLeft(type="text")
+			span.vs VS
+			input#wordRight(type="text")
+		button#go Go!
 
 	div#fighter-ctn
 		canvas#canvasFight(width="800", height="480")
-		div.tuits
-			div.left.t0
-			div.left.t1
-			div.right.t0
-			div.right.t1
-
-	div#clock
-	div#results.sixteen.columns.content
-	ul#nextFights

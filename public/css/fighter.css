@@ -1,3 +1,9 @@
+body {
+  padding: 0;
+  font-size: 14px;
+  background: url('/img/dark_mosaic.png') repeat;
+  font-family: 'Trade Winds', cursive;
+}
 
 @font-face {
 	font-family: 'tuiterfighter';
@@ -7,12 +13,87 @@
 	font-style: normal;
 }
 
-body {
-	background-color:white;
-	font-family: Verdana, Tahoma, Arial, sans-serif;
-	color:black;
-	font-size:12px;
+h1 {
+	font-family: 'tuiterfighter';
+	color: #FF5200;
+	text-shadow: 1px 1px 1px white;
+	text-align: center;
+	font-size: 40pt;
+	letter-spacing: 5px;
 }
+
+h1 span {
+	font-size: 50pt;
+	letter-spacing: 5px;
+}
+
+.slogan {
+	text-align: center;
+	color: #FFF;
+}
+
+.addFight {
+	margin: 5px 0 30px 235px;
+	width: 460px;
+	float: left;
+}
+
+#wordLeft, #wordRight {
+	font-size:16px;
+  padding: 6px;
+
+  -moz-box-shadow:inset 2px 2px 5px #ccc;
+  -webkit-box-shadow:inset 2px 2px 5px #ccc;
+  box-shadow:inset 2px 2px 5px #ccc;
+  
+  border: 1px solid #b8b8b8;	
+
+  border-radius: 5px;
+	padding-top: 5px;
+}
+
+.vs {
+	font-family: 'tuiterfighter';
+	color: #FF5200;
+	text-shadow: 1px 1px 1px white;
+	text-align: center;
+	font-size: 30pt;
+	letter-spacing: 5px;
+	display: inline-block;
+	width: 60px;
+	height: 25px;
+}
+
+#go {
+	width: 70px;
+	height: 45px;
+	border-radius: 5px;
+	border: solid 2px #EB6903;
+	background-color: #FFB46F;
+	margin-left: 5px;
+	box-shadow: 1px 1px 1px #C98342 inset;
+	line-height: 1.2;
+	font-family: 'tuiterfighter';
+	font-size: 35px;
+	color: #923500;
+
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease; 
+	-webkit-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease; 
+}
+
+#go:hover{
+	cursor: pointer;
+
+	border: solid 2px #129200;
+	background-color: #86FF6F;
+	box-shadow: 1px 1px 1px #5DC942 inset;
+	color: #045C00;
+}
+
+
+
 
 #fighter-ctn {
 	font-family:'tuiterfighter', sans-serif;

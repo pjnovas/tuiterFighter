@@ -20,15 +20,15 @@ socket.on('start', function (init) {
 
 $(function(){
 
-  $('#keywords').select2({tags:[]});
-
-  $.get('partials/_keyWordContainer.html', function(templates) {
-    $('body').append(templates);
-  });
-
   $('#go').on('click', function(){
-    socket.emit('addFight', $('#keywords').val().split(','));
-    $('#keywords').val('').select2({tags:[]}).val('');
+
+    var wLeft = $('#wordLeft').val(),
+      wRight = $('#wordRight').val();
+
+    socket.emit('addFight', [wLeft, wRight]);
+    
+    $('#wordLeft').val('');
+    $('#wordRight').val('');    
   });
 
 });
