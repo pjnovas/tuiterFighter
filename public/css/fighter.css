@@ -378,26 +378,59 @@ body {
 * Tweets
 *************************************/
 
-.tweets {
+.tuits {
 	position: absolute;
-	border: solid 1px green;
-	height: 280px;
-	bottom: 10px;
+	height: 350px;
+	bottom: 0px;
 	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 350px;
-	background-color: green;
+	width: 800px;
+	background: url('../img/frustum.png'); 
+	background-position: 0px -45px;
+
+	font-size: 14px;
+	font-family: 'Trade Winds';
+	color: #331C06;
 }
 
-.tweets.left{
-	left: 30px;
+.tuits .left,
+.tuits .right {
+	position: absolute;
+	width: 270px;
+	height: 95px;
 }
 
-.tweets.right{
-	right: 30px;
+.tuits .left.t0,
+.tuits .right.t0 {
+	top: 80px;
 }
 
+.tuits .left.t1,
+.tuits .right.t1 {
+	top: 220px;
+}
+
+.tuits .right.t0,
+.tuits .right.t1 {
+	right: 65px;
+}
+
+.tuits .left.t0,
+.tuits .left.t1 {
+	left: 70px;
+}
+
+.tuits .left label,
+.tuits .right label{
+	font-weight: bold;
+}
+
+.tuits .left span,
+.tuits .right span{
+	display: inline;
+	background-color: yellow;
+	border-radius: 5px;
+	padding: 0 3px;
+}
 
 
 

@@ -107,9 +107,15 @@ fighter.manager = (function() {
 					if (fightState.birds.right.hit)
 						from = 'right';
 
+					fighter.splash.run('tweet', {
+						from: from,
+						tweets: fightState.birds[from].tweets,
+						word: fightState.birds[from].word
+					}, function(){});
+					
 					fighter.match.punch(from);
 					fighter.match.life(fightState.birds.left.life, fightState.birds.right.life);
-					
+
 					break;
 				case states.endFight:
 

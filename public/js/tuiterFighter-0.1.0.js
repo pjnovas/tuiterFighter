@@ -1,4 +1,4 @@
-/*! tuiterFighter - v0.1.0 - 2012-09-15
+/*! tuiterFighter - v0.1.0 - 2012-09-16
 * http://tuiterfighter.com
 * Copyright (c) 2012 Pablo Novas; Licensed XXX */
 
@@ -3150,8 +3150,8 @@ fighter.stage = (function(){
 	  draw: function(){
 	    var ctx = fighter.match.context();
 
-	    ctx.drawImage(fighter.repository['frustum'], 0, 390, 800, 80); 
-	    
+	    ctx.drawImage(fighter.repository['frustum'], 0, 0, 800, 80, 0, 390, 800, 80); 
+      
 	    birdL.draw();
 	    birdR.draw();
 	    fighter.clock.draw();
@@ -3254,7 +3254,22 @@ fighter.splash = (function(){
 				.addClass('right')
 				.addClass('hide')
 				.appendTo('#fighter-ctn');
+		},
+
+		tweet: function(){
+			$('div.tuits').remove();
+
+			var tuits = "<div class='left t0'></div> \
+									<div class='left t1'></div> \
+									<div class='right t0'></div> \
+									<div class='right t1'></div>";
+
+			$('<div>')
+				.addClass('tuits')
+				.append(tuits)
+				.appendTo('#fighter-ctn');
 		}
+
 	};
 
 	var screens = {
@@ -3322,6 +3337,24 @@ fighter.splash = (function(){
 				div.removeClass('show').addClass('hide').removeClass(color);
 				if (callback) callback();
 			}, 2000);
+		},
+
+		tweet: function(callback, options){
+			var side = options.from,
+				word = options.word,
+				tweets = options.tweets,
+				tuits = $('div.tuits');
+
+			function buildTweet(idx){
+				var formTw = tweets[idx].text.replace(new RegExp(word,'gi'), "<span>" + word + "</span>");
+				return "<label>@" + tweets[idx].user.name + "</label><br/>" + formTw;
+			}
+
+			if (tweets[0])
+				$('.' + side + '.t0', tuits).html(buildTweet(0));
+
+			if (tweets[1])
+				$('.' + side + '.t1', tuits).html(buildTweet(1));
 		}
 	};
 
@@ -3333,6 +3366,7 @@ fighter.splash = (function(){
 			init.hit();
 			init.knockout();
 			init.timesup();
+			init.tweet();
 		},
 
 		run: function(screen, options, callback){
@@ -3647,9 +3681,15 @@ fighter.manager = (function() {
 					if (fightState.birds.right.hit)
 						from = 'right';
 
+					fighter.splash.run('tweet', {
+						from: from,
+						tweets: fightState.birds[from].tweets,
+						word: fightState.birds[from].word
+					}, function(){});
+					
 					fighter.match.punch(from);
 					fighter.match.life(fightState.birds.left.life, fightState.birds.right.life);
-					
+
 					break;
 				case states.endFight:
 

@@ -70,8 +70,8 @@ fighter.stage = (function(){
 	  draw: function(){
 	    var ctx = fighter.match.context();
 
-	    ctx.drawImage(fighter.repository['frustum'], 0, 390, 800, 80); 
-	    
+	    ctx.drawImage(fighter.repository['frustum'], 0, 0, 800, 80, 0, 390, 800, 80); 
+      
 	    birdL.draw();
 	    birdR.draw();
 	    fighter.clock.draw();

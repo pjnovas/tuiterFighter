@@ -70,7 +70,22 @@ fighter.splash = (function(){
 				.addClass('right')
 				.addClass('hide')
 				.appendTo('#fighter-ctn');
+		},
+
+		tweet: function(){
+			$('div.tuits').remove();
+
+			var tuits = "<div class='left t0'></div> \
+									<div class='left t1'></div> \
+									<div class='right t0'></div> \
+									<div class='right t1'></div>";
+
+			$('<div>')
+				.addClass('tuits')
+				.append(tuits)
+				.appendTo('#fighter-ctn');
 		}
+
 	};
 
 	var screens = {
@@ -138,6 +153,24 @@ fighter.splash = (function(){
 				div.removeClass('show').addClass('hide').removeClass(color);
 				if (callback) callback();
 			}, 2000);
+		},
+
+		tweet: function(callback, options){
+			var side = options.from,
+				word = options.word,
+				tweets = options.tweets,
+				tuits = $('div.tuits');
+
+			function buildTweet(idx){
+				var formTw = tweets[idx].text.replace(new RegExp(word,'gi'), "<span>" + word + "</span>");
+				return "<label>@" + tweets[idx].user.name + "</label><br/>" + formTw;
+			}
+
+			if (tweets[0])
+				$('.' + side + '.t0', tuits).html(buildTweet(0));
+
+			if (tweets[1])
+				$('.' + side + '.t1', tuits).html(buildTweet(1));
 		}
 	};
 
@@ -149,6 +182,7 @@ fighter.splash = (function(){
 			init.hit();
 			init.knockout();
 			init.timesup();
+			init.tweet();
 		},
 
 		run: function(screen, options, callback){

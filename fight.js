@@ -8,7 +8,11 @@ function Fight(options){
   this.keys = options.keywords;
   this.taker = options.lifeTaker || 2;
   this.stream = null;
-
+  this.last = {
+    left: 1,
+    right: 1
+  };
+  
   this.birds = {
     left: {
       word: this.keys[0],
@@ -76,18 +80,24 @@ function streaming(stream){
 
     if (!(isLeft && isRight) || (!isLeft && !isRight)) {
 
-      self.birds[which].tweets.unshift({
+      var curr = (self.last[which] === 0) ? 1: 0;
+      self.last[which] = curr;
+
+      //self.birds[which].tweets.unshift({
+      self.birds[which].tweets[curr] = {
         text: twText,
         user: {
           name: data.user.screen_name,
           image: data.user.profile_image_url
         }
-      });
+      }//);
 
+      /*
       if (self.birds[which].tweets.length > self.tweetsQ) {
         self.birds[which].tweets.pop();  
       }
-      
+      */
+
       self.birds[oposite].life -= self.taker;
 
       self.birds[which].hit = true;
