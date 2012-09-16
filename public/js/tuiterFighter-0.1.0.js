@@ -3350,6 +3350,20 @@ fighter.splash = (function(){
 			$('<div>')
 				.addClass('waitingSecs')
 				.appendTo('#fighter-ctn');
+		},
+
+		win: function() {
+			var msg = 'Wins!';
+			$('div.winMsg, div.winWord').remove();
+
+			$('<div>')
+				.addClass('winWord')
+				.appendTo('#fighter-ctn');
+
+			$('<div>')
+				.addClass('winMsg')
+				.text(msg)
+				.appendTo('#fighter-ctn');
 		}
 
 	};
@@ -3457,6 +3471,18 @@ fighter.splash = (function(){
 				$('div.waitingMsg, div.waitingSecs').addClass('show');
 			else 
 				$('div.waitingMsg, div.waitingSecs').removeClass('show');
+		},
+
+		win: function(callback, options) {
+			var action = options.action || 'hide',
+				winner = options.winner || '';
+
+			if (action === 'show')  {
+				$('div.winWord').text(winner);
+				$('div.winWord, div.winMsg').addClass('show');
+			}
+			else 
+				$('div.winWord, div.winMsg').removeClass('show');
 		}
 	};
 
@@ -3471,6 +3497,7 @@ fighter.splash = (function(){
 			init.tweet();
 			init.cover();
 			init.waiting();
+			init.win();
 		},
 
 		run: function(screen, options, callback){
@@ -3656,23 +3683,26 @@ fighter.match = (function(){
       fighter.splash.run('timesup', callback);
     },
 
-    winTimesUp: function(won, loose){
+    winTimesUp: function(won, loose, word){
 
       fighter.stage.birds[loose]().flyAway();        
       fighter.stage.birds[won]().calmDown();
+
+      fighter.splash.run('win', { action: 'show', winner: word});
 
       setTimeout(function(){
         fighter.match.end();
       },3000);
     },
 
-    winPunch: function(who){
+    winPunch: function(who, word){
 
       fighter.stage.birds[who]().finalPunch(function(){
         fighter.clock.stop();
 
         fighter.splash.run('knockout', function(){
-        
+          fighter.splash.run('win', { action: 'show', winner: word});
+          
           fighter.stage.birds[who]().finishFinalPunch(function(){
             fighter.match.end();
           }); 
@@ -3759,6 +3789,8 @@ fighter.manager = (function() {
 					break;
 				case states.waiting:
 					fighter.stage.hideControls(false);
+					fighter.splash.run('win', { action: 'hide'});
+
 					fighter.match.set(states.waiting);
 
 					break;
@@ -3822,16 +3854,16 @@ fighter.manager = (function() {
 								fighter.match.tie();
 							}
 							else if (fightState.birds.left.life > fightState.birds.right.life){
-								fighter.match.winTimesUp('left', 'right');
+								fighter.match.winTimesUp('left', 'right', fightState.birds.left.word);
 							}
-							else fighter.match.winTimesUp('right', 'left');
+							else fighter.match.winTimesUp('right', 'left', fightState.birds.right.word);
 						});
 					}
 					else {
 						if (fightState.birds.left.life === 0){
-							fighter.match.winPunch('right');
+							fighter.match.winPunch('right', fightState.birds.right.word);
 						}
-						else fighter.match.winPunch('left');
+						else fighter.match.winPunch('left', fightState.birds.left.word);
 					}
 
 					fighter.match.set(states.endFight);

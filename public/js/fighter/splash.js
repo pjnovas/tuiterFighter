@@ -103,6 +103,20 @@ fighter.splash = (function(){
 			$('<div>')
 				.addClass('waitingSecs')
 				.appendTo('#fighter-ctn');
+		},
+
+		win: function() {
+			var msg = 'Wins!';
+			$('div.winMsg, div.winWord').remove();
+
+			$('<div>')
+				.addClass('winWord')
+				.appendTo('#fighter-ctn');
+
+			$('<div>')
+				.addClass('winMsg')
+				.text(msg)
+				.appendTo('#fighter-ctn');
 		}
 
 	};
@@ -210,6 +224,18 @@ fighter.splash = (function(){
 				$('div.waitingMsg, div.waitingSecs').addClass('show');
 			else 
 				$('div.waitingMsg, div.waitingSecs').removeClass('show');
+		},
+
+		win: function(callback, options) {
+			var action = options.action || 'hide',
+				winner = options.winner || '';
+
+			if (action === 'show')  {
+				$('div.winWord').text(winner);
+				$('div.winWord, div.winMsg').addClass('show');
+			}
+			else 
+				$('div.winWord, div.winMsg').removeClass('show');
 		}
 	};
 
@@ -224,6 +250,7 @@ fighter.splash = (function(){
 			init.tweet();
 			init.cover();
 			init.waiting();
+			init.win();
 		},
 
 		run: function(screen, options, callback){

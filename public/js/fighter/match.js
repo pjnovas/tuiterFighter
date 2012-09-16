@@ -167,23 +167,26 @@ fighter.match = (function(){
       fighter.splash.run('timesup', callback);
     },
 
-    winTimesUp: function(won, loose){
+    winTimesUp: function(won, loose, word){
 
       fighter.stage.birds[loose]().flyAway();        
       fighter.stage.birds[won]().calmDown();
+
+      fighter.splash.run('win', { action: 'show', winner: word});
 
       setTimeout(function(){
         fighter.match.end();
       },3000);
     },
 
-    winPunch: function(who){
+    winPunch: function(who, word){
 
       fighter.stage.birds[who]().finalPunch(function(){
         fighter.clock.stop();
 
         fighter.splash.run('knockout', function(){
-        
+          fighter.splash.run('win', { action: 'show', winner: word});
+          
           fighter.stage.birds[who]().finishFinalPunch(function(){
             fighter.match.end();
           }); 

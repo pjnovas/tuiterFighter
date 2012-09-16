@@ -328,7 +328,10 @@ h1 span {
 	z-index: 8;
 }
 
-.ready span, .fight, .ko, .timesup, .waitingMsg, .waitingSecs  {
+.ready span, .fight, 
+.ko, .timesup, 
+.waitingMsg, .waitingSecs, 
+.winMsg, .winWord {
 	position: absolute;
 	text-transform: uppercase;
 	z-index: 5;
@@ -477,6 +480,39 @@ h1 span {
 .waitingSecs.show {
 	bottom: 70px;
 }
+
+
+.winMsg, .winWord {
+	text-shadow: 2px 0 #D3D3A9, 0 2px #D3D3A9, 1px 0 #D3D3A9, 0 1px #D3D3A9;
+	z-index: 11;
+	opacity: 1;
+}
+
+.winWord {
+	color: #148FC9;
+	font-size: 150px;
+	top: 125px;
+	left: -800px;
+	width: 750px;
+}
+
+.winMsg {
+	color: #2AC914;
+	font-size: 210px;
+	right: -600px;
+	bottom: 70px;
+	width: 500px;
+	text-align: center;
+}
+
+.winWord.show {
+	left: 55px;
+}
+
+.winMsg.show {
+	right: 70px;
+}
+
 
 /*************************************
 * Legends - HITS

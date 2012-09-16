@@ -69,6 +69,8 @@ fighter.manager = (function() {
 					break;
 				case states.waiting:
 					fighter.stage.hideControls(false);
+					fighter.splash.run('win', { action: 'hide'});
+
 					fighter.match.set(states.waiting);
 
 					break;
@@ -132,16 +134,16 @@ fighter.manager = (function() {
 								fighter.match.tie();
 							}
 							else if (fightState.birds.left.life > fightState.birds.right.life){
-								fighter.match.winTimesUp('left', 'right');
+								fighter.match.winTimesUp('left', 'right', fightState.birds.left.word);
 							}
-							else fighter.match.winTimesUp('right', 'left');
+							else fighter.match.winTimesUp('right', 'left', fightState.birds.right.word);
 						});
 					}
 					else {
 						if (fightState.birds.left.life === 0){
-							fighter.match.winPunch('right');
+							fighter.match.winPunch('right', fightState.birds.right.word);
 						}
-						else fighter.match.winPunch('left');
+						else fighter.match.winPunch('left', fightState.birds.left.word);
 					}
 
 					fighter.match.set(states.endFight);
