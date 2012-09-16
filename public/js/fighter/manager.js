@@ -51,8 +51,10 @@ fighter.manager = (function() {
 		},
 
 		clockTick: function(time){
-			if (currState && currState === fighter.fightStates.waiting)
-				console.log('Waiting clock tick ' + time);
+			if (currState && currState === fighter.fightStates.waiting) {
+				if (time < 0) time = 0;
+				$('.waitingSecs').text(time);
+			}
 			else fighter.match.time(time);
 		},
 
@@ -69,11 +71,12 @@ fighter.manager = (function() {
 					fighter.stage.hideControls(false);
 					fighter.match.set(states.waiting);
 
-					console.log('----- waiting -----');
-
 					break;
 				case states.startFight:
 					fighter.match.reset();
+
+					fighter.splash.run('waiting', { action: 'hide'});
+					fighter.splash.run('cover', { action: 'hide'});
 
 					fighter.match.words(fightState.birds.left.word, fightState.birds.right.word);
 					fighter.stage.showControls(true);

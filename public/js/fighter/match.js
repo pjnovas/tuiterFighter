@@ -107,8 +107,15 @@ fighter.match = (function(){
 
       switch(state){
         case states.idle:
-        case states.waiting:
           setIdle();
+          break;
+        case states.waiting:
+          fighter.splash.run('cover', { action: 'show'});
+          setIdle();
+          setTimeout(function(){
+            fighter.splash.run('cover', { action: 'opaque'});
+            fighter.splash.run('waiting', { action: 'show'});
+          }, 900);
           break;
         case states.fighting:
           if (!requestAnimId)

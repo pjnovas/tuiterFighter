@@ -84,6 +84,25 @@ fighter.splash = (function(){
 				.addClass('tuits')
 				.append(tuits)
 				.appendTo('#fighter-ctn');
+		},
+
+		cover: function() {
+			if (!$('div.cover').length)
+				$('<div>').addClass('cover').appendTo('#fighter-ctn');
+		},
+
+		waiting: function() {
+			var phrase = 'Next fight in';
+			$('div.waitingMsg, div.waitingSecs').remove();
+
+			$('<div>')
+				.addClass('waitingMsg')
+				.text(phrase)
+				.appendTo('#fighter-ctn');
+
+			$('<div>')
+				.addClass('waitingSecs')
+				.appendTo('#fighter-ctn');
 		}
 
 	};
@@ -171,6 +190,26 @@ fighter.splash = (function(){
 
 			if (tweets[1])
 				$('.' + side + '.t1', tuits).html(buildTweet(1));
+		},
+
+		cover: function(callback, options){
+			var action = options.action || 'hide';
+
+			if (action === 'show') 
+				$('div.cover').removeClass('opaque').addClass('show');
+			else if (action === 'opaque') 
+				$('div.cover').removeClass('show').addClass('opaque');
+			else if (action === 'hide') 
+				$('div.cover').removeClass('opaque').removeClass('show')
+		},
+
+		waiting: function(callback, options){
+			var action = options.action || 'hide';
+
+			if (action === 'show') 
+				$('div.waitingMsg, div.waitingSecs').addClass('show');
+			else 
+				$('div.waitingMsg, div.waitingSecs').removeClass('show');
 		}
 	};
 
@@ -183,6 +222,8 @@ fighter.splash = (function(){
 			init.knockout();
 			init.timesup();
 			init.tweet();
+			init.cover();
+			init.waiting();
 		},
 
 		run: function(screen, options, callback){
