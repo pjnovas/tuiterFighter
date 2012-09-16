@@ -49,6 +49,8 @@ fighter.init({
   io.sockets.emit("change", state);
 }).on('fightEnd', function(state){
   io.sockets.emit("change", state);
+}).on('waiting', function(state){
+  io.sockets.emit("change", state);
 }).on('clockTick', function(time){
   io.sockets.emit("clockTick", time);
 });

@@ -4,7 +4,8 @@ var fighter = fighter || {};
 fighter.manager = (function() {
 	var cfg,
 		canvasId,
-		lastState;
+		lastState,
+		currState;
 
 	var events = {
 		ready: function(){}
@@ -50,13 +51,16 @@ fighter.manager = (function() {
 		},
 
 		clockTick: function(time){
-			fighter.match.time(time);
+			if (currState && currState === fighter.fightStates.waiting)
+				console.log('Waiting clock tick ' + time);
+			else fighter.match.time(time);
 		},
 
 		update: function(fightState){
-			var currState = fightState.state,
-				states = fighter.fightStates;
-
+			var states = fighter.fightStates;
+			
+			currState = fightState.state;
+				
 			switch(currState){
 				case states.idle:
 					fighter.match.set(states.idle);
@@ -64,15 +68,11 @@ fighter.manager = (function() {
 				case states.waiting:
 					fighter.match.set(states.waiting);
 
-					console.log(fightState.birds.left.word + 
-						' vs ' + 
-						fightState.birds.right.word + 
-						' in ' + 
-						fightState.nextIn + 
-						' seconds');
+					console.log('----- waiting -----');
 
 					break;
 				case states.startFight:
+					fighter.match.reset();
 
 					fighter.match.words(fightState.birds.left.word, fightState.birds.right.word);
 					fighter.stage.showControls(true);

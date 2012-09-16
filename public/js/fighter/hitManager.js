@@ -142,4 +142,14 @@ fighter.HitManager = function(options){
     hits = 0;
   };
 
+  this.clear = function(){
+    hits = 0;
+    timeout = 2000;
+    timer = null;
+    hitsNbos = [];
+
+    firstPunch = false;
+    danger = false;
+    msgShowing = false;
+  }
 };

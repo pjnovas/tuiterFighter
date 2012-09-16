@@ -64,9 +64,12 @@ fighter.match = (function(){
       return this;
     },
     
+    reset: function(){
+      fighter.splash.create();
+      fighter.stage.create();
+    },
+
     begin: function(){
-      //todo: ready, fight
-      
       startLoop();
 
       fighter.clock.start();

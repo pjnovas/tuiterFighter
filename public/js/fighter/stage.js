@@ -5,6 +5,7 @@ fighter.stage = (function(){
 	var birdL, birdR;
 
   var createLifeBars = function(){
+    $('div.statusBar').remove();
 
   	function create(side){
   		var statusBar = $('<div>').addClass('statusBar').addClass(side);
@@ -27,31 +28,36 @@ fighter.stage = (function(){
     var left = 175,
       top = 200;
 
-    birdL = new fighter.Bird({
-      resourceTiles: 'bird',
-      dir: 1,
-      attrs: {
-        top: top,
-        left: left,
-        width: 250,
-        height: 250
-      }
-    });
+    if (birdL && birdR){
+      birdL.reset();
+      birdR.reset();
+    }
+    else {
+      birdL = new fighter.Bird({
+        resourceTiles: 'bird',
+        dir: 1,
+        attrs: {
+          top: top,
+          left: left,
+          width: 250,
+          height: 250
+        }
+      });
 
-    birdR = new fighter.Bird({
-      resourceTiles: 'bird',
-      dir: -1,
-      attrs: {
-        top: top,
-        left: left + 200,
-        width: 250,
-        height: 250
-      }
-    });
+      birdR = new fighter.Bird({
+        resourceTiles: 'bird',
+        dir: -1,
+        attrs: {
+          top: top,
+          left: left + 200,
+          width: 250,
+          height: 250
+        }
+      });
 
-    birdL.setOponent(birdR);
-    birdR.setOponent(birdL);
-
+      birdL.setOponent(birdR);
+      birdR.setOponent(birdL);
+    }
   };
 
 	return {

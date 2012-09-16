@@ -245,6 +245,18 @@ fighter.Bird = function(options){
   this.test = function(){
     currentAnimation = 'test';
   };
+
+  this.reset = function(){
+    punchs = 0;
+    life = 0;
+    statusBar = $('.statusBar.' + side);
+
+    animations = {};
+    currentAnimation = 'idle';
+    createAnimations();
+
+    hitManager.clear();
+  };
 };
 
 

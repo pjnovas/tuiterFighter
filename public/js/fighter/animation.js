@@ -122,6 +122,9 @@ fighter.Animation = function(options){
 	};
 	
 	this.addEndCallback = function(callback) {
+		for(var i=0; i< endCallbacks.length; i++)
+			endCallbacks[i] = null;
+
 		endCallbacks = [];
 		endCallbacks.push(callback);
 	};

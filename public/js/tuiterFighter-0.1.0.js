@@ -2557,6 +2557,16 @@ fighter.HitManager = function(options){
     hits = 0;
   };
 
+  this.clear = function(){
+    hits = 0;
+    timeout = 2000;
+    timer = null;
+    hitsNbos = [];
+
+    firstPunch = false;
+    danger = false;
+    msgShowing = false;
+  }
 };
 
 
@@ -2683,6 +2693,9 @@ fighter.Animation = function(options){
 	};
 	
 	this.addEndCallback = function(callback) {
+		for(var i=0; i< endCallbacks.length; i++)
+			endCallbacks[i] = null;
+
 		endCallbacks = [];
 		endCallbacks.push(callback);
 	};
@@ -2936,6 +2949,18 @@ fighter.Bird = function(options){
   this.test = function(){
     currentAnimation = 'test';
   };
+
+  this.reset = function(){
+    punchs = 0;
+    life = 0;
+    statusBar = $('.statusBar.' + side);
+
+    animations = {};
+    currentAnimation = 'idle';
+    createAnimations();
+
+    hitManager.clear();
+  };
 };
 
 
@@ -3117,6 +3142,7 @@ fighter.stage = (function(){
 	var birdL, birdR;
 
   var createLifeBars = function(){
+    $('div.statusBar').remove();
 
   	function create(side){
   		var statusBar = $('<div>').addClass('statusBar').addClass(side);
@@ -3139,31 +3165,36 @@ fighter.stage = (function(){
     var left = 175,
       top = 200;
 
-    birdL = new fighter.Bird({
-      resourceTiles: 'bird',
-      dir: 1,
-      attrs: {
-        top: top,
-        left: left,
-        width: 250,
-        height: 250
-      }
-    });
+    if (birdL && birdR){
+      birdL.reset();
+      birdR.reset();
+    }
+    else {
+      birdL = new fighter.Bird({
+        resourceTiles: 'bird',
+        dir: 1,
+        attrs: {
+          top: top,
+          left: left,
+          width: 250,
+          height: 250
+        }
+      });
 
-    birdR = new fighter.Bird({
-      resourceTiles: 'bird',
-      dir: -1,
-      attrs: {
-        top: top,
-        left: left + 200,
-        width: 250,
-        height: 250
-      }
-    });
+      birdR = new fighter.Bird({
+        resourceTiles: 'bird',
+        dir: -1,
+        attrs: {
+          top: top,
+          left: left + 200,
+          width: 250,
+          height: 250
+        }
+      });
 
-    birdL.setOponent(birdR);
-    birdR.setOponent(birdL);
-
+      birdL.setOponent(birdR);
+      birdR.setOponent(birdL);
+    }
   };
 
 	return {
@@ -3481,9 +3512,12 @@ fighter.match = (function(){
       return this;
     },
     
+    reset: function(){
+      fighter.splash.create();
+      fighter.stage.create();
+    },
+
     begin: function(){
-      //todo: ready, fight
-      
       startLoop();
 
       fighter.clock.start();
@@ -3610,7 +3644,8 @@ var fighter = fighter || {};
 fighter.manager = (function() {
 	var cfg,
 		canvasId,
-		lastState;
+		lastState,
+		currState;
 
 	var events = {
 		ready: function(){}
@@ -3656,13 +3691,16 @@ fighter.manager = (function() {
 		},
 
 		clockTick: function(time){
-			fighter.match.time(time);
+			if (currState && currState === fighter.fightStates.waiting)
+				console.log('Waiting clock tick ' + time);
+			else fighter.match.time(time);
 		},
 
 		update: function(fightState){
-			var currState = fightState.state,
-				states = fighter.fightStates;
-
+			var states = fighter.fightStates;
+			
+			currState = fightState.state;
+				
 			switch(currState){
 				case states.idle:
 					fighter.match.set(states.idle);
@@ -3670,15 +3708,11 @@ fighter.manager = (function() {
 				case states.waiting:
 					fighter.match.set(states.waiting);
 
-					console.log(fightState.birds.left.word + 
-						' vs ' + 
-						fightState.birds.right.word + 
-						' in ' + 
-						fightState.nextIn + 
-						' seconds');
+					console.log('----- waiting -----');
 
 					break;
 				case states.startFight:
+					fighter.match.reset();
 
 					fighter.match.words(fightState.birds.left.word, fightState.birds.right.word);
 					fighter.stage.showControls(true);

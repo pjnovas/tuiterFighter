@@ -34,28 +34,16 @@ exports.init = function(options){
 	  fightClock = new Clock(fightTime);
 
 	  fightClock.on('tick', function(seconds){
-			//var status = getFightState(fightStates.fighting, currentFight.getBirds(), seconds);
 	  	exports.emit('clockTick', seconds);
 	  });
 
 	  waitClock.on('tick', function(seconds){
-	  	//var status = getFightState(fightStates.waiting, {}, seconds);
-	  	//exports.emit('clockTick', seconds);
+	  	exports.emit('clockTick', seconds);
 	  });
 
 	  fightClock.on('timeup', function(){
 	  	exports.emit('clockTick', 0);
 	  	currentFight.stop();
-
-	  	/*
-	  	currentState = fightStates.endFight;
-
-	  	var status = getFightState(currentState, currentFight.getBirds());
-	  	exports.emit('clockTick', 0);
-	  	exports.emit('fightFinish', status);
-
-	  	waitClock.start();
-	  	*/
 	  });
 
 	  waitClock.on('timeup', function(){
@@ -126,10 +114,19 @@ function runFight() {
 		var status = getFightState(currentState, currentFight.getBirds());
   	
   	exports.emit('fightEnd', status);
+  	if (fights.length > 0) {
+  		currentState = fightStates.waiting;
+  	}
+  	else currentState = fightStates.idle;
 
-  	//finalizeFight();
-
-  	waitClock.start();
+		setTimeout(function(){
+			if (fights.length > 1) {
+				exports.emit('waiting', getFightState(fightStates.waiting, {}));
+				waitClock.start();
+			} else {
+				finalizeFight();
+			} 
+		}, 10000);
 	});
 	
 	currentFight.on('tweet', function(status){
