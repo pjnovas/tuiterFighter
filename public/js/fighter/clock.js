@@ -38,7 +38,7 @@ fighter.clock = (function(){
       else cY = toY;
     },
 
-    hide: function(){
+    hide: function(animated){
       
       if (animated){
         cY = toY;
@@ -58,15 +58,15 @@ fighter.clock = (function(){
 
     update: function(){
 
-      if (showing){
-        cY += vel;
-        if (cY == toY)
-          showing = false;
-      }
-      else if (hiding){
+      if (hiding){
         cY -= vel;
         if (cY == fromY)
           hiding = false;
+      }
+      else if (showing){
+        cY += vel;
+        if (cY == toY)
+          showing = false;
       }
       else if (isRuning){
 

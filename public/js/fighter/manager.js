@@ -66,6 +66,7 @@ fighter.manager = (function() {
 					fighter.match.set(states.idle);
 					break;
 				case states.waiting:
+					fighter.stage.hideControls(false);
 					fighter.match.set(states.waiting);
 
 					console.log('----- waiting -----');

@@ -3006,7 +3006,7 @@ fighter.clock = (function(){
       else cY = toY;
     },
 
-    hide: function(){
+    hide: function(animated){
       
       if (animated){
         cY = toY;
@@ -3026,15 +3026,15 @@ fighter.clock = (function(){
 
     update: function(){
 
-      if (showing){
-        cY += vel;
-        if (cY == toY)
-          showing = false;
-      }
-      else if (hiding){
+      if (hiding){
         cY -= vel;
         if (cY == fromY)
           hiding = false;
+      }
+      else if (showing){
+        cY += vel;
+        if (cY == toY)
+          showing = false;
       }
       else if (isRuning){
 
@@ -3548,7 +3548,9 @@ fighter.match = (function(){
         fighter.stage.birds.left().beIdle();
         fighter.stage.birds.right().beIdle();
         
-        stopLoop();
+        fighter.splash.create();
+        
+        setTimeout(stopLoop, 3000);
       }
 
       switch(state){
@@ -3706,6 +3708,7 @@ fighter.manager = (function() {
 					fighter.match.set(states.idle);
 					break;
 				case states.waiting:
+					fighter.stage.hideControls(false);
 					fighter.match.set(states.waiting);
 
 					console.log('----- waiting -----');

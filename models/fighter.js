@@ -27,34 +27,35 @@ function getFightState(_state, _birds, _time){
 
 exports.init = function(options){
 
-	 	var fightTime = (options && options.fightTime) || 300000, //5 min
-	  	breakTime = (options && options.breakTime) || 180000; //3 min
+ 	var fightTime = (options && options.fightTime) || 300000, //5 min
+  	breakTime = (options && options.breakTime) || 180000; //3 min
 
-	  waitClock = new Clock(breakTime);
-	  fightClock = new Clock(fightTime);
+  waitClock = new Clock(breakTime);
+  fightClock = new Clock(fightTime);
 
-	  fightClock.on('tick', function(seconds){
-	  	exports.emit('clockTick', seconds);
-	  });
+  fightClock.on('tick', function(seconds){
+  	exports.emit('clockTick', seconds);
+  });
 
-	  waitClock.on('tick', function(seconds){
-	  	exports.emit('clockTick', seconds);
-	  });
+  waitClock.on('tick', function(seconds){
+  	exports.emit('clockTick', seconds);
+  });
 
-	  fightClock.on('timeup', function(){
-	  	exports.emit('clockTick', 0);
-	  	currentFight.stop();
-	  });
+  fightClock.on('timeup', function(){
+  	exports.emit('clockTick', 0);
+  	currentFight.stop();
+  });
 
-	  waitClock.on('timeup', function(){
-	  	//TODO: store the fight - currentFight
-			finalizeFight();
-	  });
+  waitClock.on('timeup', function(){
+		finalizeFight();
+  });
 
-	  return this;
+  return this;
 };
 
 function finalizeFight(){
+	//TODO: store the fight - currentFight
+
 	currentFight = null;
 	fights.shift();
 
@@ -114,7 +115,7 @@ function runFight() {
 		var status = getFightState(currentState, currentFight.getBirds());
   	
   	exports.emit('fightEnd', status);
-  	if (fights.length > 0) {
+  	if (fights.length > 1) {
   		currentState = fightStates.waiting;
   	}
   	else currentState = fightStates.idle;
@@ -134,8 +135,10 @@ function runFight() {
 	});
 
 	currentState = fightStates.startFight;
+	
 	exports.emit('clockTick', 99);
 	exports.emit('fightStart', getFightState(currentState, currentFight.getBirds()));
+	exports.emit('clockTick', 99);	
 
 	currentState = fightStates.fighting;
 

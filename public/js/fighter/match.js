@@ -100,7 +100,9 @@ fighter.match = (function(){
         fighter.stage.birds.left().beIdle();
         fighter.stage.birds.right().beIdle();
         
-        stopLoop();
+        fighter.splash.create();
+        
+        setTimeout(stopLoop, 3000);
       }
 
       switch(state){

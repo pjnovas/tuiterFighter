@@ -40,18 +40,19 @@ var io = socketIO.listen(app, {
 
 // Fighter
 
+var emitChange = function(state){
+  io.sockets.emit("change", state);
+}
+
 fighter.init({
   fightTime: 99000, //99 seconds
-  breakTime: 30000 //30 secs
-}).on('fightStart', function(state){
-  io.sockets.emit("change", state);
-}).on('tweet', function(state){
-  io.sockets.emit("change", state);
-}).on('fightEnd', function(state){
-  io.sockets.emit("change", state);
-}).on('waiting', function(state){
-  io.sockets.emit("change", state);
-}).on('clockTick', function(time){
+  breakTime: 30000 //30 seconds
+})
+.on('fightStart', emitChange)
+.on('tweet', emitChange)
+.on('fightEnd', emitChange)
+.on('waiting', emitChange)
+.on('clockTick', function(time){
   io.sockets.emit("clockTick", time);
 });
 
