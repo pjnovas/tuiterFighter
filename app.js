@@ -6,7 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , socketIO = require('socket.io')
-  , fighter = require('./fighter.js');
+  , fighter = require('./models/fighter.js');
 
 var app = module.exports = express.createServer();
 
