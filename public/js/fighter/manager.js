@@ -137,7 +137,7 @@ fighter.manager = (function() {
       }
       else $('li', olQueue).remove();
 
-      for(var i=0; i<queue.length; i++){
+      for(var i=1; i<queue.length; i++){
         var li = $('<li>' +
             '<span class="left"></span>' +
             '<span class="right"></span>' +

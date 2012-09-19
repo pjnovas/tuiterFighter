@@ -72,7 +72,7 @@ var fighterConfig = {
       clock: 'img/clock.png'
     }
   },
-  maxQueue: 14
+  maxQueue: 15
 };
 
 // WebSocket Events
@@ -88,7 +88,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('addFight', function (keys) {
     var queue = fighter.getQueueFights();
 
-    if (queue.length <= fighterConfig.maxQueue){
+    if (queue.length < fighterConfig.maxQueue){
       fighter.addFight([keys[0], keys[1]]);
       io.sockets.emit("queueUpdated", fighter.getQueueFights());
     }
