@@ -96,10 +96,10 @@ exports.currentState = function(){
 
 exports.getQueueFights = function(){
 	var queue = [];
-	for (var i = 1; i < fights.length; i++){
-		queue.push({
-			keywords: fights[i].keys
-		});
+	if (fights.length > 1){
+		for (var i = 1; i < fights.length; i++){
+			queue.push(fights[i].keys);
+		}
 	}
 	return queue;
 };

@@ -46,9 +46,12 @@ var emitChange = function(state){
 
 fighter.init({
   fightTime: 99000, //99 seconds
-  breakTime: 30000 //30 seconds
+  breakTime: 11000 //11 seconds
 })
-.on('fightStart', emitChange)
+.on('fightStart', function(state){
+  io.sockets.emit("queueUpdated", fighter.getQueueFights());
+  emitChange(state);
+})
 .on('tweet', emitChange)
 .on('fightEnd', emitChange)
 .on('waiting', emitChange)
@@ -77,12 +80,15 @@ io.sockets.on('connection', function (socket) {
 
   socket.emit('start', {
     config: fighterConfig,
-    current: fighter.currentState()
+    current: fighter.currentState(),
+    queue: fighter.getQueueFights()
   });
 
   socket.on('addFight', function (keywords) {
     keys = [keywords[0], keywords[1]];
     fighter.addFight(keys);
+    
+    io.sockets.emit("queueUpdated", fighter.getQueueFights());
   });
 
 });

@@ -1,4 +1,4 @@
-/*! tuiterFighter - v0.1.0 - 2012-09-16
+/*! tuiterFighter - v0.1.0 - 2012-09-19
 * http://tuiterfighter.com
 * Copyright (c) 2012 Pablo Novas; Licensed XXX */
 
@@ -3750,6 +3750,12 @@ fighter.manager = (function() {
 			console.log(prg + '%');
   	}).on('complete', function(){
   		fighter.match.init(canvasId);
+  		
+  		$('<div id="queueTitle">' + 
+	  			'<span class="tfights">Fights</span>' +
+	  			'<span class="tqueue">Queue</span>' +
+  			'</div>').appendTo('#fighter-ctn');
+
   		events.ready();
   	}).load();
 	}
@@ -3776,6 +3782,25 @@ fighter.manager = (function() {
 				$('.waitingSecs').text(time);
 			}
 			else fighter.match.time(time);
+		},
+
+		updateQueue: function(queue){
+			var	olQueue = $('#fightQueue');
+
+			if (olQueue.length === 0){
+				olQueue = $('<ol id="fightQueue"></ol>').appendTo('#fighter-ctn');
+			}
+			else $('li', olQueue).remove();
+
+			for(var i=0; i<queue.length; i++){
+				var li = $('<li>' +
+						'<span class="left"></span>' +
+						'<span class="right"></span>' +
+					'</li>').appendTo(olQueue);
+				
+				$('span.left', li).text(queue[i][0]);
+				$('span.right', li).text(queue[i][1]);
+			}
 		},
 
 		update: function(fightState){
