@@ -73,7 +73,19 @@ h1 span {
 	background-color: gray;
 	text-align: center;
 	color: #C40000;
+
+	-moz-box-shadow:inset 2px 2px 5px #DDD;
+  -webkit-box-shadow:inset 2px 2px 5px #DDD;
 	box-shadow: inset 2px 2px 5px #DDD;
+}
+
+#wordLeft.error, #wordRight.error {
+	background: #611;
+
+	-moz-box-shadow:inset 2px 2px 5px #050505;
+  -webkit-box-shadow:inset 2px 2px 5px #050505;
+	box-shadow: inset 2px 2px 5px #050505;
+	border: solid 1px #530404;
 }
 
 .vs {

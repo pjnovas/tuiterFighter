@@ -90,7 +90,7 @@ io.sockets.on('connection', function (socket) {
 
     if (queue.length <= fighterConfig.maxQueue){
       fighter.addFight([keys[0], keys[1]]);
-      io.sockets.emit("queueUpdated", queue);
+      io.sockets.emit("queueUpdated", fighter.getQueueFights());
     }
   });
 
