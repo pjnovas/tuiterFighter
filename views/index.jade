@@ -12,10 +12,10 @@ div.container
 		
 	div.fixed-row-600
 		div.addFight
-			input#wordLeft(type="text")
+			input#wordLeft.locked(type="text",readonly="readonly", value="LOCKED", title="Loading...")
 			span.vs VS
-			input#wordRight(type="text")
-		button#go Go!
+			input#wordRight.locked(type="text",readonly="readonly", value="LOCKED", title="Loading...")
+		button#go(style="display:none") Go!
 
 	div.full-row
 		div#fighter-ctn

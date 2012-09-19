@@ -59,14 +59,21 @@ h1 span {
 	font-size:16px;
   padding: 6px;
 
-  -moz-box-shadow:inset 2px 2px 5px #ccc;
-  -webkit-box-shadow:inset 2px 2px 5px #ccc;
-  box-shadow:inset 2px 2px 5px #ccc;
+  -moz-box-shadow:inset 2px 2px 5px #6F6F6F;
+  -webkit-box-shadow:inset 2px 2px 5px #6F6F6F;
+  box-shadow:inset 2px 2px 5px #6F6F6F;
   
   border: 1px solid #b8b8b8;	
 
   border-radius: 5px;
 	padding-top: 5px;
+}
+
+#wordLeft.locked, #wordRight.locked {
+	background-color: gray;
+	text-align: center;
+	color: #C40000;
+	box-shadow: inset 2px 2px 5px #DDD;
 }
 
 .vs {

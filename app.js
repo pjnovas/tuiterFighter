@@ -71,7 +71,8 @@ var fighterConfig = {
       hits: 'img/text.png',
       clock: 'img/clock.png'
     }
-  }
+  },
+  maxQueue: 14
 };
 
 // WebSocket Events
@@ -84,11 +85,13 @@ io.sockets.on('connection', function (socket) {
     queue: fighter.getQueueFights()
   });
 
-  socket.on('addFight', function (keywords) {
-    keys = [keywords[0], keywords[1]];
-    fighter.addFight(keys);
-    
-    io.sockets.emit("queueUpdated", fighter.getQueueFights());
+  socket.on('addFight', function (keys) {
+    var queue = fighter.getQueueFights();
+
+    if (queue.length <= fighterConfig.maxQueue){
+      fighter.addFight([keys[0], keys[1]]);
+      io.sockets.emit("queueUpdated", queue);
+    }
   });
 
 });
