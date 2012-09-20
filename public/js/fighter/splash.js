@@ -121,6 +121,16 @@ fighter.splash = (function(){
 				.addClass('winMsg')
 				.text(msg)
 				.appendTo('#fighter-ctn');
+		},
+
+		draw: function() {
+			var msg = 'Draw!!';
+			$('div.draw').remove();
+
+			$('<div>')
+				.addClass('draw')
+				.text(msg)
+				.appendTo('#fighter-ctn');
 		}
 
 	};
@@ -285,6 +295,15 @@ fighter.splash = (function(){
 			}
 			else 
 				$('div.winWord, div.winMsg').removeClass('show');
+		},
+
+		draw: function(callback) {
+			$('div.draw').addClass('show');
+
+			setTimeout(function(){
+				$('div.draw').removeClass('show');
+				if (callback) callback();
+			}, 1500);
 		}
 	};
 
@@ -300,6 +319,7 @@ fighter.splash = (function(){
 			init.cover();
 			init.waiting();
 			init.win();
+			init.draw();
 		},
 
 		run: function(screen, options, callback){

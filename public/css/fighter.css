@@ -25,17 +25,6 @@ body {
 	display: inline-block;
 }
 
-/*
-.container .fixed-row-600 {
-	width: 615px;
-	margin: 0 auto;
-}
-
-.full-row, .fixed-row-600 {
-	display: inline-block;
-}
-*/
-
 h1 {
 	font-family: 'tuiterfighter';
 	color: #FF5200;
@@ -163,7 +152,6 @@ h1 span {
 	overflow: hidden;
 	
 	box-shadow: 0px 0px 100px #000 inset;
-	/*background: url('../img/bg.png'); */
 	margin: 0 auto;
 
 	height:1500px; 
@@ -380,7 +368,7 @@ h1 span {
 	z-index: 8;
 }
 
-.ready span, .fight, 
+.ready span, .fight, .draw,
 .ko, .timesup, 
 .waitingMsg, .waitingSecs, 
 .winMsg, .winWord, .loading, .loadingP {
@@ -531,6 +519,29 @@ h1 span {
 	font-size: 150px;
 	top: 200px;
 	left: 125px;
+}
+
+.draw {
+	color: #79C914;
+	text-shadow: 2px 0 #D3D3A9, 0 2px #D3D3A9, 1px 0 #D3D3A9, 0 1px #D3D3A9;
+	z-index: 9;
+
+	-webkit-transform: rotate(-10deg);
+	-moz-transform: rotate(-10deg);
+	-ms-transform: rotate(-10deg);
+	-o-transform: rotate(-10deg);
+
+	opacity: 0;
+	font-size: 1px;
+	top: 300px;
+	left: 400px;
+}
+
+.draw.show {
+	opacity: 1;
+	font-size: 200px;
+	top: 200px;
+	left: 180px;
 }
 
 .waitingMsg, .waitingSecs {

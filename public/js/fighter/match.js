@@ -150,15 +150,13 @@ fighter.match = (function(){
       fighter.stage.birds.left().calmDown();
       fighter.stage.birds.right().calmDown();
 
-      /*
-      fighter.splash.run('tie', function(){
+      fighter.splash.run('draw', function(){
 
         setTimeout(function(){
           fighter.match.end();
         },3000);
 
       });
-      */
     },
 
     timesUp: function(callback){
