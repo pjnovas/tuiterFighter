@@ -22,12 +22,19 @@ body {
 
 .container .full-row {
 	width: 100%;
+	display: inline-block;
 }
 
+/*
 .container .fixed-row-600 {
 	width: 615px;
 	margin: 0 auto;
 }
+
+.full-row, .fixed-row-600 {
+	display: inline-block;
+}
+*/
 
 h1 {
 	font-family: 'tuiterfighter';
@@ -50,14 +57,24 @@ h1 span {
 }
 
 .addFight {
-	margin: 5px 0 30px 70px;
-	width: 460px;
+	position: relative;
+	margin: 0 auto;
+	width: 500px;
+	height: 50px;
+}
+
+#wordLeft {
 	float: left;
+}
+
+#wordRight {
+	float: right;
 }
 
 #wordLeft, #wordRight {
 	font-size:16px;
   padding: 6px;
+  width: 200px;
 
   -moz-box-shadow:inset 2px 2px 5px #6F6F6F;
   -webkit-box-shadow:inset 2px 2px 5px #6F6F6F;
@@ -95,9 +112,12 @@ h1 span {
 	text-align: center;
 	font-size: 30pt;
 	letter-spacing: 5px;
-	display: inline-block;
-	width: 60px;
-	height: 25px;
+	
+	width: 100px;
+	height: 40px;
+	position: absolute;
+	left: 200px;
+	top: -5px;
 }
 
 #go {
@@ -112,6 +132,10 @@ h1 span {
 	font-family: 'tuiterfighter';
 	font-size: 35px;
 	color: #923500;
+
+	position: absolute;
+	right: -100px;
+	top: -5px;
 
 	transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease; 
