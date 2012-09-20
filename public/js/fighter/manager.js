@@ -87,8 +87,19 @@ fighter.manager = (function() {
         }
       }
       
+      $.ajax({
+        type: "POST",
+        url: "/fight",
+        dataType: "json",
+        data: {left: wLeft, right: wRight}
+      }).done(function(data) { 
+        console.log(data);
+      }).fail(function(err) { 
+        console.log(err);
+      });
+      
       //TODO: change to a AJAX POST
-      socket.emit('addFight', [wLeft, wRight]);
+      //socket.emit('addFight', [wLeft, wRight]);
       
       txtLeft.val('');
       txtRight.val('');

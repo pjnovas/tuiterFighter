@@ -33,6 +33,21 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 
+app.post('/fight', function(req, res){
+  var userAgent = req.headers['user-agent'];
+  var left = req.body.left;
+  var right = req.body.right;
+
+  if (!userAgent.trim().length)
+    res.send(403); //forbiden
+
+  console.dir(userAgent);
+  console.dir(left);
+  console.dir(right);
+
+  res.send(200, {});
+});
+
 // SocketIO Init
 var io = socketIO.listen(app, {
   "log level": 1
@@ -85,6 +100,7 @@ io.sockets.on('connection', function (socket) {
     queue: fighter.getQueueFights()
   });
 
+/*
   socket.on('addFight', function (keys) {
     var queue = fighter.getQueueFights();
 
@@ -93,7 +109,7 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit("queueUpdated", fighter.getQueueFights());
     }
   });
-
+*/
 });
 
 app.listen(3000, function(){
