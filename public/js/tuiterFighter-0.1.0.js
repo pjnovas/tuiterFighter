@@ -3199,7 +3199,9 @@ fighter.stage = (function(){
 
 	return {
 		create: function(){
-			createLifeBars();
+      $('#fighter-ctn').css('background', 'url(../img/bg.png)');
+			
+      createLifeBars();
 			createBirds();
 			fighter.clock.init(350, -100, 20, false);
 		},
@@ -3249,6 +3251,10 @@ fighter.stage = (function(){
 var fighter = fighter || {};
 
 fighter.splash = (function(){
+	var loadingP = 1,
+		loadingI = null,
+		currPer = 0,
+		movingNbs = null;
 
 	var init = {
 		ready: function(){
@@ -3461,7 +3467,52 @@ fighter.splash = (function(){
 			else if (action === 'opaque') 
 				$('div.cover').removeClass('show').addClass('opaque');
 			else if (action === 'hide') 
-				$('div.cover').removeClass('opaque').removeClass('show')
+				$('div.cover').removeClass('opaque').removeClass('show');
+		},
+
+		bigcover: function(callback, options){
+			var action = options.action || 'show',
+				perc = options.percentage || 0;
+
+			if (action === 'show') {
+				clearInterval(loadingI);
+				loadingI = setInterval(function(){
+					loadingP++;
+					if (loadingP === 4)
+						loadingP = 1;
+
+					var text = "Loading ";
+					for(var i=0; i< loadingP; i++){
+						text += '.';
+					}
+
+					$('div.loading').text(text);
+
+				}, 1000);
+			}
+			else if (action === 'hide') {
+				clearInterval(loadingI);
+				clearInterval(movingNbs);
+				$('div.loadingP').text('100%');
+				$('div.loading').add('div.loadingP').removeClass('show');
+
+				setTimeout(function(){
+					$('div.bigcover').removeClass('show');
+					if (callback) callback();
+				}, 500);
+				return;
+			}
+			else if (action === 'update') {
+				clearInterval(movingNbs);
+				movingNbs = setInterval(function(){
+					currPer++;
+					if (currPer === perc){
+						clearInterval(movingNbs);
+					}
+
+					$('div.loadingP').text(currPer + '%');
+				}, 50);
+			}
 		},
 
 		waiting: function(callback, options){
@@ -3740,6 +3791,10 @@ fighter.manager = (function() {
 
     fighter.splash.create();
 
+    fighter.splash.run('bigcover', { 
+      action: 'show'
+    });
+
     fighter.repository.addResources({
       'bird': sprites.bird,
       'frustum': scenary.floor,
@@ -3748,7 +3803,12 @@ fighter.manager = (function() {
     }).on('error', function(err){
       console.log(err);
     }).on('report', function(prg){
-      console.log(prg + '%');
+      
+      fighter.splash.run('bigcover', { 
+        action: 'update', 
+        percentage: prg
+      });
+
     }).on('complete', function(){
       fighter.match.init(canvasId);
       
@@ -3757,7 +3817,9 @@ fighter.manager = (function() {
           '<span class="tqueue">Queue</span>' +
         '</div>').appendTo('#fighter-ctn');
 
-      events.ready();
+      fighter.splash.run('bigcover', { action: 'hide'}, function(){
+        events.ready();  
+      });
     }).load();
   };
 

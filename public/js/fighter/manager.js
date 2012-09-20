@@ -20,6 +20,10 @@ fighter.manager = (function() {
 
     fighter.splash.create();
 
+    fighter.splash.run('bigcover', { 
+      action: 'show'
+    });
+
     fighter.repository.addResources({
       'bird': sprites.bird,
       'frustum': scenary.floor,
@@ -28,7 +32,12 @@ fighter.manager = (function() {
     }).on('error', function(err){
       console.log(err);
     }).on('report', function(prg){
-      console.log(prg + '%');
+      
+      fighter.splash.run('bigcover', { 
+        action: 'update', 
+        percentage: prg
+      });
+
     }).on('complete', function(){
       fighter.match.init(canvasId);
       
@@ -37,7 +46,9 @@ fighter.manager = (function() {
           '<span class="tqueue">Queue</span>' +
         '</div>').appendTo('#fighter-ctn');
 
-      events.ready();
+      fighter.splash.run('bigcover', { action: 'hide'}, function(){
+        events.ready();  
+      });
     }).load();
   };
 

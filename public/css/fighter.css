@@ -139,18 +139,18 @@ h1 span {
 	overflow: hidden;
 	
 	box-shadow: 0px 0px 100px #000 inset;
-	background: url('../img/bg.png'); 
+	/*background: url('../img/bg.png'); */
 	margin: 0 auto;
 
 	height:1500px; 
 	border-radius: 20px; 
 }
 
-#fighter-ctn, .cover {
+#fighter-ctn, .cover, .bigcover {
 	width: 800px; 
 }
 
-.cover {
+.cover, .bigcover {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -167,12 +167,18 @@ h1 span {
 	-o-transition: opacity 1s ease;
 }
 
-.cover.show {
+.cover.show, .bigcover.show {
 	opacity: 1;	
 }
 
 .cover.opaque {
 	opacity: 0.6;	
+}
+
+.bigcover {
+	height:1500px; 
+	border-radius: 20px; 
+	z-index: 15;
 }
 
 #canvasFight {
@@ -353,7 +359,7 @@ h1 span {
 .ready span, .fight, 
 .ko, .timesup, 
 .waitingMsg, .waitingSecs, 
-.winMsg, .winWord {
+.winMsg, .winWord, .loading, .loadingP {
 	position: absolute;
 	text-transform: uppercase;
 	z-index: 5;
@@ -362,6 +368,35 @@ h1 span {
 	-moz-transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-o-transition: all 0.5s;
+}
+
+.loading, .loadingP {
+	z-index: 20;
+	color: #FF7A00;
+	text-shadow: white 4px 4px 0;
+	top: 100px;
+	word-spacing: 23px;
+	font-size: 150px;
+	letter-spacing: 10px;
+
+}
+
+.loading {
+	left: -700px;
+}
+
+.loading.show {
+	left: 50px;
+}
+
+.loadingP {
+	top: 300px;
+	font-size: 150px;
+	right: -400px;
+}
+
+.loadingP.show {
+	right: 200px;
 }
 
 .fight {
