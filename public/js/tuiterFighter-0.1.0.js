@@ -1,4 +1,4 @@
-/*! tuiterFighter - v0.1.0 - 2012-09-19
+/*! tuiterFighter - v0.1.0 - 2012-09-20
 * http://tuiterfighter.com
 * Copyright (c) 2012 Pablo Novas; Licensed XXX */
 
@@ -3876,8 +3876,19 @@ fighter.manager = (function() {
         }
       }
       
+      $.ajax({
+        type: "POST",
+        url: "/fight",
+        dataType: "json",
+        data: {left: wLeft, right: wRight}
+      }).done(function(data) { 
+        console.log(data);
+      }).fail(function(err) { 
+        console.log(err);
+      });
+      
       //TODO: change to a AJAX POST
-      socket.emit('addFight', [wLeft, wRight]);
+      //socket.emit('addFight', [wLeft, wRight]);
       
       txtLeft.val('');
       txtRight.val('');

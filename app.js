@@ -29,28 +29,73 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+
+var fighterConfig = {
+  resources: {
+    scenaries: [{
+      name: 'forest',
+      bg: 'img/bg.png',
+      floor: 'img/frustum.png'
+    }],
+    sprites: {
+      bird: 'img/bird-tiles.png',
+      hits: 'img/text.png',
+      clock: 'img/clock.png'
+    }
+  },
+  maxQueue: 15
+};
+
+// SocketIO Init
+var io = socketIO.listen(app, {
+  "log level": 1
+});
+
 // Routes
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+  res.render('index', { title: "Tuiter Fighter!" })
+});
 
 app.post('/fight', function(req, res){
   var userAgent = req.headers['user-agent'];
   var left = req.body.left;
   var right = req.body.right;
 
-  if (!userAgent.trim().length)
-    res.send(403); //forbiden
+  if (!userAgent || !userAgent.trim().length){
+    res.send(403); //forbiden without user-agent
+    return;
+  }
 
-  console.dir(userAgent);
-  console.dir(left);
-  console.dir(right);
+  if (!left.length){
+    res.send(400, "Must fill with a word");
+    return;
+  }
 
-  res.send(200, {});
-});
+  if (!right.length){
+    res.send(400, "Must fill with a word");
+    return;
+  }
 
-// SocketIO Init
-var io = socketIO.listen(app, {
-  "log level": 1
+  if (left === right){
+    res.send(400, 'The same words wont be fun, huh?');
+    return; 
+  }
+
+  console.log(userAgent);
+
+  var queue = fighter.getQueueFights();
+
+  if (queue.length < fighterConfig.maxQueue){
+    fighter.addFight([left, right]);
+    io.sockets.emit("queueUpdated", fighter.getQueueFights());
+  
+    res.send(200);
+  }
+  else {
+    res.send(403, 'The fights queue is full, wait some time');  
+  }
+  
 });
 
 // Fighter
@@ -74,42 +119,16 @@ fighter.init({
   io.sockets.emit("clockTick", time);
 });
 
-var fighterConfig = {
-  resources: {
-    scenaries: [{
-      name: 'forest',
-      bg: 'img/bg.png',
-      floor: 'img/frustum.png'
-    }],
-    sprites: {
-      bird: 'img/bird-tiles.png',
-      hits: 'img/text.png',
-      clock: 'img/clock.png'
-    }
-  },
-  maxQueue: 15
-};
-
 // WebSocket Events
 
 io.sockets.on('connection', function (socket) {
-
+  console.dir(socket);
+  
   socket.emit('start', {
     config: fighterConfig,
     current: fighter.currentState(),
     queue: fighter.getQueueFights()
   });
-
-/*
-  socket.on('addFight', function (keys) {
-    var queue = fighter.getQueueFights();
-
-    if (queue.length < fighterConfig.maxQueue){
-      fighter.addFight([keys[0], keys[1]]);
-      io.sockets.emit("queueUpdated", fighter.getQueueFights());
-    }
-  });
-*/
 });
 
 app.listen(3000, function(){

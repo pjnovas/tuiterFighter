@@ -98,9 +98,6 @@ fighter.manager = (function() {
         console.log(err);
       });
       
-      //TODO: change to a AJAX POST
-      //socket.emit('addFight', [wLeft, wRight]);
-      
       txtLeft.val('');
       txtRight.val('');
     }
