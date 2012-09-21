@@ -16,8 +16,7 @@ var config = {
 };
 var client = loggly.createClient(config);
 
-var 
-	tu = null;
+var tu = null,
 	fightClock = null,
 	waitClock = null,
 	fights = [],
@@ -44,8 +43,8 @@ exports.init = function(options){
     input.log('Fighter starting');
   });
 
- 	var fightTime = (options && options.fightTime) || 300000, //5 min
-  	breakTime = (options && options.breakTime) || 180000; //3 min
+ 	var fightTime = (options && options.fightTime) || 300000; //5 min
+  var breakTime = (options && options.breakTime) || 180000; //3 min
 
   waitClock = new Clock(breakTime);
   fightClock = new Clock(fightTime);
