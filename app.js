@@ -6,7 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , socketIO = require('socket.io')
-  , fighter = require('./models/fighter.js');
+  , fighter = require('./models/fighter.js')
+  , twitterKey = null;
 
 var app = module.exports = express.createServer();
 
@@ -23,10 +24,12 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  twitterKey = require('./models/twitterKeyDev');
 });
 
 app.configure('production', function(){
   app.use(express.errorHandler());
+  twitterKey = require('./models/twitterKey');
 });
 
 
@@ -82,8 +85,6 @@ app.post('/fight', function(req, res){
     return; 
   }
 
-  console.log(userAgent);
-
   var queue = fighter.getQueueFights();
 
   if (queue.length < fighterConfig.maxQueue){
@@ -105,6 +106,7 @@ var emitChange = function(state){
 }
 
 fighter.init({
+  twKey: twitterKey,
   fightTime: 99000, //99 seconds
   breakTime: 11000 //11 seconds
 })
@@ -122,8 +124,6 @@ fighter.init({
 // WebSocket Events
 
 io.sockets.on('connection', function (socket) {
-  console.dir(socket);
-  
   socket.emit('start', {
     config: fighterConfig,
     current: fighter.currentState(),

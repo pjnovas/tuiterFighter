@@ -3,10 +3,12 @@ var events = require('events'),
 	Fight = require('./fight.js'),
 	Clock = require('./clock.js'),
   Tuiter = require("tuiter"),
-  tu = new Tuiter(require('./twitterKey.json')),
+  //tu = new Tuiter(require('./twitterKey.json')),
   fightStates = require('./fightStates.js');
 
-var fightClock = null,
+var 
+	tu = null;
+	fightClock = null,
 	waitClock = null,
 	fights = [],
 	currentFight = null,
@@ -26,6 +28,7 @@ function getFightState(_state, _birds, _time){
 }
 
 exports.init = function(options){
+	tu = new Tuiter(options.twKey || {});
 
  	var fightTime = (options && options.fightTime) || 300000, //5 min
   	breakTime = (options && options.breakTime) || 180000; //3 min
