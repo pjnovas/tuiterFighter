@@ -3,8 +3,18 @@ var events = require('events'),
 	Fight = require('./fight.js'),
 	Clock = require('./clock.js'),
   Tuiter = require("tuiter"),
-  //tu = new Tuiter(require('./twitterKey.json')),
   fightStates = require('./fightStates.js');
+
+var loggly = require('loggly');
+var config = {
+  subdomain: "pjnovas",
+  auth: {
+    username: "pjnovas",
+    password: "nBm0g1f1!"
+  },
+  json: true
+};
+var client = loggly.createClient(config);
 
 var 
 	tu = null;
@@ -30,6 +40,10 @@ function getFightState(_state, _birds, _time){
 exports.init = function(options){
 	tu = new Tuiter(options.twKey || {});
 
+	client.getInput('tuiterfighter', function (err, input) {
+    input.log('Fighter starting');
+  });
+
  	var fightTime = (options && options.fightTime) || 300000, //5 min
   	breakTime = (options && options.breakTime) || 180000; //3 min
 
@@ -53,11 +67,19 @@ exports.init = function(options){
 		finalizeFight();
   });
 
+  client.getInput('tuiterfighter', function (err, input) {
+    input.log('Fighter configured');
+  });
+
   return this;
 };
 
 function finalizeFight(){
 	//TODO: store the fight - currentFight
+
+	client.getInput('tuiterfighter', function (err, input) {
+    input.log('Fight Finalized');
+  });
 
 	currentFight = null;
 	fights.shift();
@@ -67,6 +89,10 @@ function finalizeFight(){
 	}
 	else {
 		currentState = fightStates.idle;
+
+		client.getInput('tuiterfighter', function (err, input) {
+	    input.log('FightState is idle');
+	  });
 	}
 }
 
@@ -81,6 +107,10 @@ exports.addFight = function(keywords){
 
 	if (fights.length === 1)
 		runFight();
+
+	client.getInput('tuiterfighter', function (err, input) {
+    input.log('Fight Added - ' + keywords);
+  });
 };
 
 exports.currentState = function(){
@@ -115,18 +145,37 @@ function runFight() {
 		fightClock.stop();
 		currentState = fightStates.endFight;
 
+		client.getInput('tuiterfighter', function (err, input) {
+	    input.log('FightState is endFight');
+	  });
+
 		var status = getFightState(currentState, currentFight.getBirds());
   	
   	exports.emit('fightEnd', status);
   	if (fights.length > 1) {
   		currentState = fightStates.waiting;
-  	}
-  	else currentState = fightStates.idle;
 
+  		client.getInput('tuiterfighter', function (err, input) {
+		    input.log('FightState is waiting');
+		  });
+  	}
+  	else {
+  		currentState = fightStates.idle;
+
+  		client.getInput('tuiterfighter', function (err, input) {
+		    input.log('FightState is idle');
+		  });
+		}
+  	
 		setTimeout(function(){
 			if (fights.length > 1) {
 				exports.emit('waiting', getFightState(fightStates.waiting, {}));
 				waitClock.start();
+
+				client.getInput('tuiterfighter', function (err, input) {
+			    input.log('FightState is waiting');
+			  });
+
 			} else {
 				finalizeFight();
 			} 
@@ -138,6 +187,10 @@ function runFight() {
 	});
 
 	currentState = fightStates.startFight;
+
+	client.getInput('tuiterfighter', function (err, input) {
+    input.log('FightState is startFight');
+  });
 	
 	exports.emit('clockTick', 99);
 	exports.emit('fightStart', getFightState(currentState, currentFight.getBirds()));
@@ -145,7 +198,15 @@ function runFight() {
 
 	currentState = fightStates.fighting;
 
+	client.getInput('tuiterfighter', function (err, input) {
+    input.log('FightState is fighting');
+  });
+
 	setTimeout(function(){
+		client.getInput('tuiterfighter', function (err, input) {
+	    input.log('Fight starting');
+	  }); 
+
 		currentFight.start();
 		fightClock.start();
 	}, 5000);

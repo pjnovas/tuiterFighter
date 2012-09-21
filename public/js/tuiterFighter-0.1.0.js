@@ -1,6 +1,6 @@
 /*! tuiterFighter - v0.1.0 - 2012-09-20
 * http://tuiterfighter.com
-* Copyright (c) 2012 Pablo Novas; Licensed XXX */
+* Copyright (c) 2012 Pablo Novas; Licensed  */
 
 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -3882,13 +3882,10 @@ fighter.manager = (function() {
         dataType: "json",
         data: {left: wLeft, right: wRight}
       }).done(function(data) { 
-        console.log(data);
+        //console.log(data);
       }).fail(function(err) { 
-        console.log(err);
+        //console.log(err);
       });
-      
-      //TODO: change to a AJAX POST
-      //socket.emit('addFight', [wLeft, wRight]);
       
       txtLeft.val('');
       txtRight.val('');

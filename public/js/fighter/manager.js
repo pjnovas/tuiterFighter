@@ -93,9 +93,9 @@ fighter.manager = (function() {
         dataType: "json",
         data: {left: wLeft, right: wRight}
       }).done(function(data) { 
-        console.log(data);
+        //console.log(data);
       }).fail(function(err) { 
-        console.log(err);
+        //console.log(err);
       });
       
       txtLeft.val('');
