@@ -6,7 +6,8 @@ fighter.manager = (function() {
     canvasId,
     lastState,
     currState,
-    currQueue;
+    currQueue,
+    isLocked = false;
 
   var events = {
     ready: function(){}
@@ -39,6 +40,7 @@ fighter.manager = (function() {
       });
 
     }).on('complete', function(){
+      $('#fighter-ctn').css('background', 'url(../img/bg.png)');
       fighter.match.init(canvasId);
       
       $('<div id="queueTitle">' + 
@@ -60,53 +62,68 @@ fighter.manager = (function() {
 
     function onGoClick(e){
       var wLeft = $.trim(txtLeft.val()),
-        wRight = $.trim(txtRight.val());
+        wRight = $.trim(txtRight.val()),
+        l = wLeft.toLowerCase(),
+        r = wRight.toLowerCase();
 
-      if (!wLeft.length){
-        txtLeft.addClass('error').attr('title', emptyMsg);
-        return;
-      }
+      if (!isLocked){
 
-      if (!wRight.length){
-        txtRight.addClass('error').attr('title', emptyMsg);
-        return;
-      }
-
-      if (wLeft === wRight){
-        txtLeft.add(txtRight).addClass('error')
-          .attr('title', 'The same words wont be fun, huh?');
-        return; 
-      }
-
-      for (var i=0; i< currQueue.length; i++){
-        var q = currQueue[i];
-        if ((q[0] === wLeft || q[1] === wLeft) && (q[0] === wRight || q[1] === wRight)) {
-          txtLeft.add(txtRight).addClass('error')
-            .attr('title', 'That fight is already on the queue!');
+        if (!wLeft.length){
+          txtLeft.addClass('error').attr('title', emptyMsg);
           return;
         }
+
+        if (!wRight.length){
+          txtRight.addClass('error').attr('title', emptyMsg);
+          return;
+        }
+
+        if (l === r){
+          txtLeft.add(txtRight).addClass('error')
+            .attr('title', 'The same words wont be fun, huh?');
+          return; 
+        }
+
+        for (var i=0; i< currQueue.length; i++){
+          var q = currQueue[i],
+            q0 = q[0].toLowerCase(),
+            q1 = q[1].toLowerCase();
+
+          if ((q0 === l || q1 === l) && (q0 === r || q1 === r)) {
+            txtLeft.add(txtRight).addClass('error')
+              .attr('title', 'That fight is already on the queue!');
+            return;
+          }
+        }
+        
+        $.ajax({
+          type: "POST",
+          url: "/fight",
+          dataType: "json",
+          data: {left: wLeft, right: wRight}
+        }).done(function(data) { 
+          isLocked = true;
+          manageGO(true, "You just added a fight, wait 30 seconds to add another one");
+
+          setTimeout(function(){
+            isLocked = false;
+            checkQueue();
+          }, 30000);
+        }).fail(function(err) { 
+          console.log(err);
+        });
+        
+        txtLeft.val('');
+        txtRight.val('');
       }
-      
-      $.ajax({
-        type: "POST",
-        url: "/fight",
-        dataType: "json",
-        data: {left: wLeft, right: wRight}
-      }).done(function(data) { 
-        //console.log(data);
-      }).fail(function(err) { 
-        //console.log(err);
-      });
-      
-      txtLeft.val('');
-      txtRight.val('');
     }
 
-    if (disabled) {
+    if (disabled || isLocked) {
       $('#go').off('click').hide();
       
       txtLeft.add(txtRight)
         .addClass('locked')
+        .removeClass('error')
         .val(lockedMsg)
         .attr('readonly', true)
         .attr('title', why);
@@ -116,10 +133,18 @@ fighter.manager = (function() {
       
       txtLeft.add(txtRight)
         .removeClass('locked')
+        .removeClass('error')
         .val('')
         .attr('readonly', false)
         .attr('title', '');
     }
+  };
+
+  var checkQueue = function(){
+    if(currQueue.length >= cfg.maxQueue){
+      manageGO(true, 'Figths Queue is full, wait for current fight to end');
+    }
+    else manageGO(false);
   };
 
   return {
@@ -166,10 +191,7 @@ fighter.manager = (function() {
         $('span.right', li).text(queue[i][1]);
       }
 
-      if(queue.length >= cfg.maxQueue){
-        manageGO(true, 'Figths Queue is full, wait for current fight to end');
-      }
-      else manageGO(false);
+      checkQueue();
     },
 
     update: function(fightState){

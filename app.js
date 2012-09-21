@@ -91,7 +91,7 @@ app.post('/fight', function(req, res){
     fighter.addFight([left, right]);
     io.sockets.emit("queueUpdated", fighter.getQueueFights());
   
-    res.send(200);
+    res.send({});
   }
   else {
     res.send(403, 'The fights queue is full, wait some time');  

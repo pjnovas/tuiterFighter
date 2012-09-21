@@ -62,8 +62,6 @@ fighter.stage = (function(){
 
 	return {
 		create: function(){
-      $('#fighter-ctn').css('background', 'url(../img/bg.png)');
-			
       createLifeBars();
 			createBirds();
 			fighter.clock.init(350, -100, 20, false);
