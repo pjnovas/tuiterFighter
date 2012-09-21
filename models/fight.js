@@ -15,13 +15,13 @@ function Fight(options){
   
   this.birds = {
     left: {
-      word: this.keys[0],
+      word: this.keys[0].toLowerCase(),
       life: 100,
       tweets: [],
       hit: false
     },
     right: {
-      word: this.keys[1],
+      word: this.keys[1].toLowerCase(),
       life: 100,
       tweets: [],
       hit: false
@@ -57,7 +57,10 @@ Fight.prototype.getBirds = function(){
 };
 
 function streaming(stream){
-  var self = this;
+  var self = this,
+    rgLeft = new RegExp("\\b" + self.birds.left.word.toLowerCase() + "\\b",'i'),
+    rgRight = new RegExp("\\b" + self.birds.right.word.toLowerCase() + "\\b",'i'),
+    count = 0;
 
   stream.on('tweet', function(data){
     var twText = data.text,
@@ -66,13 +69,13 @@ function streaming(stream){
       which = '',
       oposite = '';
 
-    if (twText.indexOf(self.birds.left.word) >= 0){
+    if (rgLeft.test(twText)) {
       isLeft = true;
       which = 'left';
       oposite = 'right';
     }
 
-    if (twText.indexOf(self.birds.right.word) >= 0) {
+    if (rgRight.test(twText)) {
       isRight = true;
       which = 'right';
       oposite = 'left';
@@ -83,21 +86,14 @@ function streaming(stream){
       var curr = (self.last[which] === 0) ? 1: 0;
       self.last[which] = curr;
 
-      //self.birds[which].tweets.unshift({
       self.birds[which].tweets[curr] = {
         text: twText,
         user: {
           name: data.user.screen_name,
           image: data.user.profile_image_url
         }
-      }//);
-
-      /*
-      if (self.birds[which].tweets.length > self.tweetsQ) {
-        self.birds[which].tweets.pop();  
       }
-      */
-
+      
       self.birds[oposite].life -= self.taker;
 
       self.birds[which].hit = true;
