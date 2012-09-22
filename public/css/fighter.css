@@ -1,5 +1,6 @@
 body {
   padding: 0;
+  margin: 0;
   font-size: 14px;
   background: url('/img/dark_mosaic.png') repeat;
   font-family: 'Trade Winds', cursive;
@@ -13,7 +14,7 @@ body {
 	font-style: normal;
 }
 
-.container {
+.container, .footer .ctn {
 	position: relative;
 	width: 865px; /*960px;*/
 	margin: 0 auto;
@@ -37,6 +38,49 @@ h1 {
 h1 span {
 	font-size: 50pt;
 	letter-spacing: 5px;
+}
+
+.footer {
+	width: 100%;
+	background-color: rgba(4, 19, 0, 0.5);
+	margin-top: 50px;
+	border-top: solid 5px #001805;
+	box-shadow: 0 0 100px #011100;
+}
+
+.footer, .footer .ctn {
+	height: 220px;
+}
+
+.footer .ctn {
+	color: #FFF;
+	font-size: 14px;
+}
+
+.footer .ctn p.thanks{
+	font-weight: bold;
+	font-size: 16px;	
+}
+
+.footer .ctn ul.thanks {
+	list-style: none;
+	padding-left: 10px;
+}
+
+.footer .ctn ul.thanks li{
+	margin: 5px 0;
+}
+
+.footer .ctn a {
+	color: #FFF;
+	text-decoration: underline;
+}
+
+.footer .ctn .copyright {
+	font-size: 18px;
+	float: right;
+	margin: 0;
+	margin-top: -30px;
 }
 
 .slogan {
@@ -667,7 +711,7 @@ h1 span {
 	background-position: 0px -45px;
 
 	font-size: 14px;
-	font-family: 'Trade Winds';
+	font-family: 'Trade Winds', cursive;
 	color: #331C06;
 }
 
@@ -720,7 +764,7 @@ h1 span {
 	top: 815px;
 	left: 290px;
 	font-size: 30px;
-	font-family: 'Trade Winds';
+	font-family: 'Trade Winds', cursive;
 	color: #331C06;
 }
 
@@ -743,7 +787,7 @@ h1 span {
 	list-style: none;
 	width: 570px;
 	font-size: 18px;
-	font-family: 'Trade Winds';
+	font-family: 'Trade Winds', cursive;
 	color: #331C06;
 	padding: 0;
 	margin: 0;

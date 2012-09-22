@@ -1,13 +1,6 @@
 /*! tuiterFighter - v0.1.1 - 2012-09-21
 * http://tuiterfighter.com
-* Copyright (c) 2012 Pablo Novas; Licensed  */
-
-
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-
-// requestAnimationFrame polyfill by Erik Möller
-// fixes from Paul Irish and Tino Zijdel
+* Copyright (c) 2012 Pablo Novas*/
 
 (function() {
     var lastTime = 0;
