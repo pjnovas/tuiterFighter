@@ -3,6 +3,7 @@ html
   head
     title= title
     
+    link(href='/img/favicon.ico', rel='icon', type='image/x-icon')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Trade+Winds', type='text/css')
     link(rel='stylesheet', href='/css/fighter.css')
 
@@ -50,4 +51,9 @@ html
           | (font type 
           a(href="http://www.google.com/webfonts/specimen/Trade+Winds", target="_blank") Trade Winds
           | )
+      div.share 
+        iframe(src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftuiterfighter.com&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=dark&font=arial&height=21&appId=280211018745576', scrolling='no', frameborder='0', style='border: none; overflow: hidden; width: 450px; height: 21px;', allowtransparency='true')
+        a.twitter-share-button(href='https://twitter.com/share', data-url='http://tuiterfighter.com', data-text='Tuiter Fighter!', data-size='large') Tweet
+        script
+          !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
       p.copyright copyright &copy 2012 Pablo Novas
