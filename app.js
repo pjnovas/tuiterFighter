@@ -7,7 +7,10 @@ var express = require('express')
   , routes = require('./routes')
   , socketIO = require('socket.io')
   , fighter = require('./models/fighter.js')
+  , useragent = require('useragent')
   , twitterKey = null;
+
+require('useragent/features');
 
 var app = module.exports = express.createServer();
 
@@ -56,17 +59,39 @@ var io = socketIO.listen(app, {
 
 // Routes
 
-app.get('/', function(req, res){
-  res.render('index', { title: "Tuiter Fighter!" })
+app.get('/', function(req, res) {
+  var uAgent = req.headers['user-agent'];
+
+  if (!uAgent || !uAgent.trim().length) {
+    res.send(403, 'you need a browser to see the fights');
+    return;
+  }
+
+  var agent = useragent.parse(uAgent);
+  var ua = useragent.is(uAgent);
+  if ((ua.ie && agent.satisfies('<9'))
+    || (ua.firefox && agent.satisfies('<12'))
+    || (ua.chrome && agent.satisfies('<20'))
+    //|| (ua.safari && agent.satisfies('<531'))
+    || (ua.opera && agent.satisfies('<12'))) {
+    res.redirect('/ancient');
+    return;
+  }
+
+  res.render('index', { title: "Tuiter Fighter!" });
 });
 
-app.post('/fight', function(req, res){
-  var userAgent = req.headers['user-agent'];
+app.get('/ancient', function(req, res) {
+  res.render('ancient', { title: "Tuiter Fighter! - Ancient", layout: false });
+});
+
+app.post('/fight', function(req, res) {
+  var uAgent = req.headers['user-agent'];
   var left = req.body.left;
   var right = req.body.right;
 
-  if (!userAgent || !userAgent.trim().length){
-    res.send(403); //forbiden without user-agent
+  if (!uAgent || !uAgent.trim().length){
+    res.send(403, 'you need a browser to see the fights');
     return;
   }
 
@@ -137,7 +162,8 @@ app.listen(port, function(){
 });
 
 process.on("uncaughtException", function (err) { 
-  console.log('>>>>>> Unhandled Exception Ocurred: ' + err);
+  console.log('>>>>>> Unhandled Exception Ocurred <<<<<<<<');
+  console.dir(err);
 });
 
 
