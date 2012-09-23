@@ -40,6 +40,83 @@ h1 span {
   letter-spacing: 5px;
 }
 
+#howItWorksLnk {
+  position: absolute;
+  top: 110px;
+  left: 50px;
+  cursor: pointer;
+  color: white;
+  width: 70px;
+  text-align: center;
+  border: solid 2px silver;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding-top: 16px;
+  height: 50px;
+  line-height: 1.2;
+
+  transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease; 
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease; 
+}
+
+#howItWorksLnk:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #000;
+}
+
+#howItWorks {
+  display: none;
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+#howItWorks .wrapper {
+  position: relative;
+  width: 700px;
+  height: 450px;
+  margin: 30px auto;
+  padding: 20px;
+  border: solid 2px silver;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 20px;
+  box-shadow: 0px 0px 50px black;
+  color: #fff;
+}
+
+#howItWorks .wrapper h2{
+  margin: 10px 0 0 0;
+}
+
+#howItWorks .wrapper .final{
+  text-align: center;
+  font-size: 18px;
+}
+
+#howItWorks .wrapper a.close {
+  position: absolute;
+  top: -17px;
+  width: 30px;
+  height: 30px;
+  color: #830B0B;
+  text-shadow: 0px 0px 1px #464646;
+  border: solid 1px silver;
+  right: -17px;
+  border-radius: 20px;
+  line-height: 1.5;
+  background-color: white;
+  font-family: Arial;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  text-indent: 8px;
+}
+
 .footer {
   width: 100%;
   background-color: rgba(4, 19, 0, 0.5);

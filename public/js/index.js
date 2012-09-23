@@ -3,14 +3,14 @@ var socket = io.connect();
 
 socket.on('start', function (init) {
 
-	fighter.manager.on('ready', function(){
+  fighter.manager.on('ready', function(){
 
     fighter.manager.update(init.current);
     fighter.manager.updateQueue(init.queue);
 
-		socket.on('change', function(state){
-			fighter.manager.update(state);
-		});
+    socket.on('change', function(state){
+      fighter.manager.update(state);
+    });
 
     socket.on('clockTick', function(time){
       fighter.manager.clockTick(time);
@@ -20,13 +20,28 @@ socket.on('start', function (init) {
       fighter.manager.updateQueue(queue);
     });
 
-	}).load('canvasFight', init.config);
+  }).load('canvasFight', init.config);
 
 });
 
-$(function(){
+function initBoxesEvents(){
   var txts = $('#wordLeft').add('#wordRight');
   txts.on('keyup', function(){
     txts.removeClass('error').attr('title', '');
   });
+}
+
+function initHowItWorks(){
+  $('#howItWorksLnk').on('click', function(){
+    $('#howItWorks').show();
+  });
+
+  $('#howItWorksClose').on('click', function(){
+    $('#howItWorks').hide();
+  });
+}
+
+$(function(){
+  initBoxesEvents();
+  initHowItWorks();
 });
