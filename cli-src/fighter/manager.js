@@ -58,7 +58,8 @@ fighter.manager = (function() {
     var txtLeft = $('#wordLeft'), 
       txtRight = $('#wordRight'),
       lockedMsg = 'LOCKED',
-      emptyMsg = 'Must fill with a word!';
+      emptyMsg = 'Must fill with a word!',
+      badChar = "Character '(' or ')' are not allowed!";
 
     function onGoClick(e){
       var wLeft = $.trim(txtLeft.val()),
@@ -68,14 +69,24 @@ fighter.manager = (function() {
 
       if (!isLocked){
 
-        if (!wLeft.length){
+        if (!wLeft.length) {
           txtLeft.addClass('error').attr('title', emptyMsg);
           return;
         }
 
-        if (!wRight.length){
+        if (!wRight.length) {
           txtRight.addClass('error').attr('title', emptyMsg);
           return;
+        }
+
+        if (wLeft.indexOf('(') >= 0 || wLeft.indexOf(')') >= 0) {
+          txtLeft.addClass('error').attr('title', badChar);
+          return; 
+        }
+
+        if (wRight.indexOf('(') >= 0 || wRight.indexOf(')') >= 0) {
+          txtRight.addClass('error').attr('title', badChar);
+          return; 
         }
 
         if (l === r){

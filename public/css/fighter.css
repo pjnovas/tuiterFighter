@@ -127,6 +127,8 @@ h1 span {
 
 .footer, .footer .ctn {
   height: 220px;
+  overflow: hidden;
+  padding-bottom: 30px;
 }
 
 .footer .ctn {
@@ -164,7 +166,7 @@ h1 span {
   width: 135px;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 20px;
   text-align: right;
 }
 

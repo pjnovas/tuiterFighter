@@ -105,6 +105,16 @@ app.post('/fight', function(req, res) {
     return;
   }
 
+  if (left.indexOf('(') >= 0 || left.indexOf(')') >= 0) {
+    res.send(400, "Characters '(' or ')' are not allowed");
+    return; 
+  }
+
+  if (right.indexOf('(') >= 0 || right.indexOf(')') >= 0) {
+    res.send(400, "Characters '(' or ')' are not allowed");
+    return; 
+  }
+
   if (left === right){
     res.send(400, 'The same words wont be fun, huh?');
     return; 

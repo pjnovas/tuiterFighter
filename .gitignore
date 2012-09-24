@@ -1,3 +1,5 @@
 *.appconfig
 .project
 /node_modules
+/cli-src/tuiterFighter-*
+/public/js/tuiterFighter-*

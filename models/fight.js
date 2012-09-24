@@ -58,8 +58,10 @@ Fight.prototype.getBirds = function(){
 
 function streaming(stream){
   var self = this,
-    rgLeft = new RegExp("\\b" + self.birds.left.word.toLowerCase() + "\\b",'i'),
-    rgRight = new RegExp("\\b" + self.birds.right.word.toLowerCase() + "\\b",'i'),
+    wLeft = self.birds.left.word.toLowerCase().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"),
+    wRight = self.birds.right.word.toLowerCase().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"),
+    rgLeft = new RegExp("\\b" + wLeft + "\\b",'i'),
+    rgRight = new RegExp("\\b" + wRight + "\\b",'i'),
     count = 0;
 
   stream.on('tweet', function(data){
