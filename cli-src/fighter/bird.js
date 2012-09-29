@@ -124,7 +124,7 @@ fighter.Bird = function(options){
     var side = 'Right';
     punchs++;
 
-    if (life === 100 && oponent.life() < 100 && oponent.life() >= 98)
+    if (life === 100 && oponent.life() <= 100 && oponent.life() > 98)
       hitManager.firstPunch();      
 
     hitManager.punch();

@@ -60,13 +60,17 @@ fighter.clock = (function(){
 
       if (hiding){
         cY -= vel;
-        if (cY == fromY)
+        if (cY <= fromY) {
+          cY = fromY;
           hiding = false;
+        }
       }
       else if (showing){
         cY += vel;
-        if (cY == toY)
+        if (cY >= toY) {
+          cY = toY;
           showing = false;
+        }
       }
       else if (isRuning){
 
