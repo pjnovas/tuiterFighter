@@ -6,7 +6,7 @@ fighter.bla = {
 		ready: 'Listo!',
 		fight: 'Pelea!',
 		ko: 'K.O.',
-		timesup: "Tiempo Fuera!",
+		timesup: "Se acabo el Tiempo!",
 		nextfight: 'Siguiente en',
 		wins: 'Gana!',
 		draw: 'Empate!!',
