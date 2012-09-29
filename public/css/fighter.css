@@ -856,15 +856,18 @@ h1 span {
 }
 
 #queueTitle .tfights {
-  position: relative;
-  top:0;
+  position: absolute;
+  top: 0;
   left: 0;
+  width: 150px;
 }
 
 #queueTitle .tqueue {
-  position: relative;
+  position: absolute;
   top: -14px;
-  left: 60px;
+  left: 140px;
+  width: 120px;
+  text-align: center;
 }
 
 #fightQueue {

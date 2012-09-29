@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , socketIO = require('socket.io')
+  , lingua  = require('lingua')
   , fighter = require('./models/fighter.js')
   , useragent = require('useragent')
   , twitterKey = null;
@@ -19,6 +20,13 @@ var app = module.exports = express.createServer();
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+
+  // Lingua configuration
+  app.use(lingua(app, {
+      defaultLocale: 'en',
+      path: __dirname + '/i18n'
+  }));
+
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);

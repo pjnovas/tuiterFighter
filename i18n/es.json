@@ -1,0 +1,47 @@
+{
+	"lang": "es",
+	"home": {
+		"howItWorks": "cómo funciona?",
+		"slogan": "Qué palabras van a estar peleando en Twitter?",
+		"locked": "CERRADO",
+		"loading": "Cargando",
+		"vs": "VS",
+		"go": "Go!"
+	},
+	"howTo": {
+		"title": "Cómo funciona?",
+		"purpose": "El único propósito de este sitio es divertirse, nada de lo que suceda aqui debe ser tomado en serio",
+		"explains": [
+			"Elije 2 palabras, digamos 'genial' y 'divertido' y ponelas a pelear",
+			"Cuando tu pelea empieza cada pájaro va a tener una palabra, entonces durante la pelea (máx 99 segundos) el sitio va a estar 'observando' todos los tuits que salen en Twitter conteniendo alguna de esas palabras.",
+			"Cuando un tuit aparece, el pájaro que tiene la palabra le pegará al otro en la cara."
+		],
+		"remember":"Recuerda, la 'observación' sólo sucede durante la pelea, es decir, todo tuit anterior o posterior no será tomado en cuenta.",
+		"consider": {
+			"title": "Algunas cosas que deberías considerar:",
+			"items": [
+				"Puedes elejir palabras con espacios, como 'cosas geniales', pero puede que no salgan muchos tuits",
+				"Sólo hay una cola de peleas con un máximo de 15 (incluyendo la pelea actual). Si tu pelea es la última de la cola, tendrás que esperar como máximo 30 minutos.",
+				"Cada pelea dura 99 segundos, a menos que un pájaro derrote al otro antes.",
+				"Si un tuit contiene ambas palabras en pelea, no será tomado en cuenta."
+			]
+		},
+		"footer": "Eso es todo!, a divertirse!"
+	},
+	"footer": {
+		"builtIn": "Hecho con ",
+		"andAwesomeLibs": " y bibliotecas copadas como: ",
+		"and": " y ",
+		"hostedIn": "Alojado en ",
+		"thanks": "Gracias por el gran trabajo a: ",
+		"thanksDan": "Dan Zajdband por su soporte y biblioteca ",
+		"bgPattern": "patrón de fondo ",
+		"fontType": "tipo de fuente ",
+		"allRightsReserved": "Todos los Derechos Reservados"
+	},
+	"ancient": {
+		"title": "parece que estás un 'poco' atrás",
+		"slogan": "hacete un regalo y descarga un joven y lindo Navegador",
+		"link": "AQUI"
+	}
+}

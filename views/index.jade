@@ -7,41 +7,41 @@ div.container
 			| ighter 
 			span !
 
-	a#howItWorksLnk how it works?
+	a#howItWorksLnk= lingua.home.howItWorks
 
 	div.full-row
-		p.slogan Which words are gonna be fighting on Twitter?
+		p.slogan= lingua.home.slogan
 		
 	div.full-row
 		div.addFight
-			input#wordLeft.locked(type="text",readonly="readonly", value="LOCKED", title="Loading...")
-			span.vs VS
-			input#wordRight.locked(type="text",readonly="readonly", value="LOCKED", title="Loading...")
-			button#go(style="display:none") Go!
+			input#wordLeft.locked(type="text",readonly="readonly", value="#{lingua.home.locked}", title="#{lingua.home.loading}...")
+			span.vs= lingua.home.vs
+			input#wordRight.locked(type="text",readonly="readonly", value="#{lingua.home.locked}", title="#{lingua.home.loading}...")
+			button#go(style="display:none")= lingua.home.go
 
 	div.full-row
 		div#fighter-ctn
 			canvas#canvasFight(width="800", height="480")
 			div.bigcover.show
-			div.loading.show Loading .
+			div.loading.show= lingua.home.loading
 			div.loadingP.show 0%
 
 div#howItWorks
 	div.wrapper
 		a#howItWorksClose.close X
-		h2.title How It Works?
-		p The only purpose of this site is to have fun, nothing of what happens here should be taken seriously.
-		p Pick 2 words, let say "awesome" and "nice" and set them to fight.
-		| When your fight starts each bird is going to have a word, so during the fight (max 99 seconds) the site is going to be "watching" every tweet on Twitter that came up containing one of those words.
-		| When a tweet cames up, the bird who has that word will punch the other one in the face.
-		p Remember, the "watching" happens only during the fight, so every tweet earlier or later is not going to be taken in account.
-		h3 Some things to consider:
+		h2.title= lingua.howTo.title
+		p= lingua.howTo.purpose
+		p= lingua.howTo.explains[0]
+		| #{lingua.howTo.explains[1]}
+		| #{lingua.howTo.explains[2]}
+		p= lingua.howTo.remember
+		h3= lingua.howTo.consider.title
 		ul
-			li You can choose words with spaces, like "awesome things", but maybe it's not coming up so much. 
-			li There is only one thread of fights with a queue of fifteen fights max (current fight included). If your fight is the last one you will have to wait 30 minutes max.
-			li Each fight last 99 seconds unless a bird bits the other one before.
-			li If a tweet contains both words, is not going to be taken in account.
-		p.final That's it!, have fun!
+			li= lingua.howTo.consider.items[0]
+			li= lingua.howTo.consider.items[1]
+			li= lingua.howTo.consider.items[2]
+			li= lingua.howTo.consider.items[3]
+		p.final= lingua.howTo.footer
 
 script(src='js/libs/jquery.min.js', type='text/javascript')
 script(src='js/tuiterFighter-0.1.4.min.js', type='text/javascript')

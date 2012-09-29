@@ -1,0 +1,47 @@
+{
+	"lang": "en",
+	"home": {
+		"howItWorks": "how it works?",
+		"slogan": "Which words are gonna be fighting on Twitter?",
+		"locked": "LOCKED",
+		"loading": "Loading",
+		"vs": "VS",
+		"go": "Go!"
+	},
+	"howTo": {
+		"title": "How It Works?",
+		"purpose": "The only purpose of this site is to have fun, nothing of what happens here should be taken seriously.",
+		"explains": [
+			"Pick 2 words, let say 'awesome' and 'nice' and set them to fight.",
+			"When your fight starts each bird is going to have a word, so during the fight (max 99 seconds) the site is going to be 'watching' every tweet on Twitter that came up containing one of those words.",
+			"When a tweet cames up, the bird who has that word will punch the other one in the face."
+		],
+		"remember":"Remember, the 'watching' happens only during the fight, so every tweet earlier or later is not going to be taken in account.",
+		"consider": {
+			"title": " Some things to consider:",
+			"items": [
+				"You can choose words with spaces, like 'awesome things', but maybe it's not coming up so much. ",
+				"There is only one thread of fights with a queue of fifteen fights max (current fight included). If your fight is the last one you will have to wait 30 minutes max.",
+				"Each fight last 99 seconds unless a bird bits the other one before.",
+				"If a tweet contains both words, is not going to be taken in account."
+			]
+		},
+		"footer": "That's it!, have fun!"
+	},
+	"footer": {
+		"builtIn": "Built with ",
+		"andAwesomeLibs": " and awesome libraries like: ",
+		"and": " and ",
+		"hostedIn": "Hosted in ",
+		"thanks": "Thanks for the great work to: ",
+		"thanksDan": "Dan Zajdband for his support & library ",
+		"bgPattern": "background pattern ",
+		"fontType": "font type ",
+		"allRightsReserved": "All Rights Reserved"
+	},
+	"ancient": {
+		"title": "seems you are a 'little' behind",
+		"slogan": "get yourself a gift and download a nice and young Browser ",
+		"link": "here"
+	}
+}
