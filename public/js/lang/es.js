@@ -3,7 +3,7 @@ var fighter = fighter || {};
 
 fighter.bla = {
 	splash: {
-		ready: 'Listos!',
+		ready: 'Listo!',
 		fight: 'Pelea!',
 		ko: 'K.O.',
 		timesup: "Tiempo Fuera!",
