@@ -5,7 +5,8 @@ fighter.HitManager = function(options){
 
   var opts = options || {},
     resName = 'text',
-    cText = fighter.config.text;
+    cText = fighter.config.text,
+    hitsTxt = fighter.bla.hits;
 
   var attrs = {
     y: opts.attrs.top || 0,
@@ -46,12 +47,12 @@ fighter.HitManager = function(options){
     hitsNbos = [];
 
     if (firstPunch){
-      showSplash('First Attack!', 'yellow');
+      showSplash(hitsTxt.firstAttack, 'yellow');
       firstPunch = false;
     }
 
     if(danger){
-      showSplash('Danger!', 'red'); 
+      showSplash(hitsTxt.danger, 'red'); 
       danger = false;
     }
 
@@ -72,31 +73,31 @@ fighter.HitManager = function(options){
           case 2:
           case 5:
             if (rnd)
-              showSplash('Yes!');
-            else showSplash('Good!');
+              showSplash(hitsTxt.yes);
+            else showSplash(hitsTxt.good);
             break;
           case 10:
           case 15:
             if (rnd)
-              showSplash('Cool!');
-            else showSplash('Great!');
+              showSplash(hitsTxt.cool);
+            else showSplash(hitsTxt.great);
             break;
           case 20:
           case 25:
             if (rnd)
-              showSplash('Stylish!');
-            else showSplash('Viewtiful!');
+              showSplash(hitsTxt.stylish);
+            else showSplash(hitsTxt.viewtiful);
             break;
           case 30:
           case 35:
           case 40:
             if (rnd)
-              showSplash('Excelent!');
-            else showSplash('Wooooow!');
+              showSplash(hitsTxt.excelent);
+            else showSplash(hitsTxt.wow);
             break;
           case 45:
           case 50:
-            showSplash('Tuiterous!');
+            showSplash(hitsTxt.tuiterous);
             break;
         }
       }

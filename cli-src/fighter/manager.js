@@ -7,7 +7,8 @@ fighter.manager = (function() {
     lastState,
     currState,
     currQueue,
-    isLocked = false;
+    isLocked = false,
+    managerTxt = fighter.bla.manager;
 
   var events = {
     ready: function(){}
@@ -44,8 +45,8 @@ fighter.manager = (function() {
       fighter.match.init(canvasId);
       
       $('<div id="queueTitle">' + 
-          '<span class="tfights">Fights</span>' +
-          '<span class="tqueue">Queue</span>' +
+          '<span class="tfights">' + managerTxt.fights + '</span>' +
+          '<span class="tqueue">' + managerTxt.queue + '</span>' +
         '</div>').appendTo('#fighter-ctn');
 
       fighter.splash.run('bigcover', { action: 'hide'}, function(){
@@ -57,9 +58,9 @@ fighter.manager = (function() {
   var manageGO = function(disabled, why){
     var txtLeft = $('#wordLeft'), 
       txtRight = $('#wordRight'),
-      lockedMsg = 'LOCKED',
-      emptyMsg = 'Must fill with a word!',
-      badChar = "Character '(' or ')' are not allowed!";
+      lockedMsg = managerTxt.locked,
+      emptyMsg = managerTxt.errors.mustFill,
+      badChar = managerTxt.errors.badChar;
 
     function onGoClick(e){
       var wLeft = $.trim(txtLeft.val()),
@@ -91,7 +92,7 @@ fighter.manager = (function() {
 
         if (l === r){
           txtLeft.add(txtRight).addClass('error')
-            .attr('title', 'The same words wont be fun, huh?');
+            .attr('title', managerTxt.errors.sameWord);
           return; 
         }
 
@@ -102,7 +103,7 @@ fighter.manager = (function() {
 
           if ((q0 === l || q1 === l) && (q0 === r || q1 === r)) {
             txtLeft.add(txtRight).addClass('error')
-              .attr('title', 'That fight is already on the queue!');
+              .attr('title', managerTxt.errors.fightInQueue);
             return;
           }
         }
@@ -114,7 +115,7 @@ fighter.manager = (function() {
           data: {left: wLeft, right: wRight}
         }).done(function(data) { 
           isLocked = true;
-          manageGO(true, "You just added a fight, wait 30 seconds to add another one");
+          manageGO(true, managerTxt.errors.wait);
 
           setTimeout(function(){
             isLocked = false;
@@ -153,7 +154,7 @@ fighter.manager = (function() {
 
   var checkQueue = function(){
     if(currQueue.length >= cfg.maxQueue){
-      manageGO(true, 'Figths Queue is full, wait for current fight to end');
+      manageGO(true, managerTxt.errors.queueIsFull);
     }
     else manageGO(false);
   };

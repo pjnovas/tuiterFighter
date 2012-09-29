@@ -5,11 +5,12 @@ fighter.splash = (function(){
 	var loadingP = 1,
 		loadingI = null,
 		currPer = 0,
-		movingNbs = null;
+		movingNbs = null,
+		splashTxt = fighter.bla.splash;
 
 	var init = {
 		ready: function(){
-			var word = 'Ready!';
+			var word = splashTxt.ready;
 			
 			$('div.ready').remove();
 
@@ -27,7 +28,7 @@ fighter.splash = (function(){
 		},
 
 		fight: function(){
-			var word = 'Fight!';
+			var word = splashTxt.fight;
 
 			$('div.fight').remove();
 			
@@ -39,7 +40,7 @@ fighter.splash = (function(){
 		},
 
 		knockout: function(){
-			var word = 'K.O.';
+			var word = splashTxt.ko;
 
 			$('div.ko').remove();
 			
@@ -50,7 +51,7 @@ fighter.splash = (function(){
 		},
 
 		timesup: function(){
-			var word = "Time's Up!";
+			var word = splashTxt.timesup;
 
 			$('div.timesup').remove();
 			
@@ -96,7 +97,7 @@ fighter.splash = (function(){
 		},
 
 		waiting: function() {
-			var phrase = 'Next fight in';
+			var phrase = splashTxt.nextfight;
 			$('div.waitingMsg, div.waitingSecs').remove();
 
 			$('<div>')
@@ -110,7 +111,7 @@ fighter.splash = (function(){
 		},
 
 		win: function() {
-			var msg = 'Wins!';
+			var msg = splashTxt.wins;
 			$('div.winMsg, div.winWord').remove();
 
 			$('<div>')
@@ -124,7 +125,7 @@ fighter.splash = (function(){
 		},
 
 		draw: function() {
-			var msg = 'Draw!!';
+			var msg = splashTxt.draw;
 			$('div.draw').remove();
 
 			$('<div>')
@@ -242,7 +243,7 @@ fighter.splash = (function(){
 					if (loadingP === 4)
 						loadingP = 1;
 
-					var text = "Loading ";
+					var text = splashTxt.loading;
 					for(var i=0; i< loadingP; i++){
 						text += '.';
 					}
